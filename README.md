@@ -1,5 +1,7 @@
 # CongressionalAppChallengeProject
 Public GitHub repository for our Cyberbullying Congressional App Challenge!
+This connects to our Streamlit app! Check out the link here: [TBD]
+
 
 Here are the links to the relevant Hugging Face Spaces that we have worked on.
   - ChatHub: https://huggingface.co/spaces/rxu187/chatbot?logs=container
