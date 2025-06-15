@@ -1,4 +1,4 @@
-# CongressionalAppChallengeProject
+# Congressional App Challenge Project
 Public GitHub repository for our Cyberbullying Congressional App Challenge!
 This connects to our Streamlit app! Check out the link here: [TBD]
 
