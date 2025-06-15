@@ -7,9 +7,6 @@ from PIL import Image
 import io
 import pandas as pd
 
-# Set Streamlit page configuration
-st.set_page_config(page_title="Cyberbullying Detection", page_icon="🚨", layout="wide")
-
 # OpenAI API key
 api_key = os.getenv("OPENAI_API_KEY")
 
