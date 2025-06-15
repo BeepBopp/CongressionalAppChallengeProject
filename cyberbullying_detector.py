@@ -8,7 +8,7 @@ import io
 import pandas as pd
 
 # OpenAI API key
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = st.secrets["OPENAI_API_KEY"]
 
 # GPT models to use
 GPT_MODEL = "gpt-4.1-mini"
