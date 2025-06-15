@@ -18,3 +18,18 @@ Features in our App
   - Continuous improvement with feedback system and PostgreSQL storage!
   -  [More?]
   - Connections between Features: Prompts user to travel between the above features (with memory) depending on the scenario
+
+Pages that will be included are listed here.
+  -  Home Page
+  -  Tools
+      - Cyberbullying Identifier
+      - Support Therapist
+      - Recommendations
+          - Victims
+          - Moderators
+  - Resources
+      - TBD (Can brainstorm)
+  - Reach Out
+      - About Us
+      - Leave Feedback
+      - Contact Us!
