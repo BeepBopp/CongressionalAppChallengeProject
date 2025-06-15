@@ -1,0 +1,198 @@
+import streamlit as st
+from openai import OpenAI
+from datetime import datetime
+import os
+import base64
+from PIL import Image
+import io
+import pandas as pd
+
+# Set Streamlit page configuration
+st.set_page_config(page_title="Cyberbullying Detection", page_icon="🛡️", layout="wide")
+
+# OpenAI API key
+api_key = os.getenv("OPENAI_API_KEY")
+
+# GPT models to use
+GPT_MODEL = "gpt-4.1-mini"
+VISION_MODEL = "gpt-4.1-mini"
+
+def classify_with_gpt(text):
+    """Use ChatGPT to classify text and provide explanation."""
+    try:
+        prompt = f"""
+You are a content moderation assistant. Given a user message, determine if it contains cyberbullying or harmful content.
+Respond in the following format:
+Label: <cyberbullying / not cyberbullying>
+Explanation: <1-3 sentence explanation why you chose that label>
+Message: \"{text}\"
+"""
+        client = OpenAI(api_key=api_key)
+        response = client.chat.completions.create(
+            model=GPT_MODEL,
+            messages=[
+                {"role": "system", "content": "You are a content moderation assistant trained to detect cyberbullying."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.2
+        )
+        reply = response.choices[0].message.content
+        lines = reply.strip().split("\n")
+        label = "unknown"
+        explanation = ""
+        for line in lines:
+            if line.lower().startswith("label:"):
+                label = line.split(":", 1)[1].strip().lower()
+            if line.lower().startswith("explanation:"):
+                explanation = line.split(":", 1)[1].strip()
+        return label, explanation
+    except Exception as e:
+        st.error(f"OpenAI API Error: {e}")
+        return "error", "Failed to get a response from the model."
+
+def encode_image(image_file):
+    """Encode the image to base64"""
+    return base64.b64encode(image_file.getvalue()).decode('utf-8')
+
+def extract_text_from_image(image_file):
+    """Use OpenAI's Vision capabilities to extract text from an image"""
+    base64_image = encode_image(image_file)
+    
+    try:
+        client = OpenAI(api_key=api_key)
+        response = client.chat.completions.create(
+            model=VISION_MODEL,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": "Extract all text visible in this image. Return only the exact text found, maintaining line breaks where appropriate."},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/png;base64,{base64_image}"
+                            }
+                        }
+                    ]
+                }
+            ],
+            max_tokens=300
+        )
+        
+        return response.choices[0].message.content
+    
+    except Exception as e:
+        st.error(f"Error processing image: {str(e)}")
+        return None
+
+# UI
+st.title("🛡️ Cyberbullying Detection")
+
+with st.sidebar:
+    st.header("About")
+    st.markdown("""
+    This app uses OpenAI's GPT model to analyze text for cyberbullying or harmful content.
+    GPT-4 provides human-level judgment and context understanding, making it suitable for detecting subtle forms of bullying, harassment, or offensive speech.
+    
+    The app can analyze:
+    - Directly entered text messages
+    - Text extracted from screenshots or images
+    
+    ⚠️ Note: Accuracy may vary depending on how short or vague the input is.
+    """)
+
+# Create tabs for different input methods
+tab1, tab2 = st.tabs(["Text Input", "Screenshot Upload"])
+
+with tab1:
+    st.subheader("🔍 Analyze a Text Message")
+    user_input = st.text_area("Enter a message or comment to analyze:", height=150)
+    
+    if st.button("Analyze Text"):
+        if user_input:
+            with st.spinner("Analyzing..."):
+                label, explanation = classify_with_gpt(user_input)
+                
+            if label == "cyberbullying":
+                st.error("**Prediction: Cyberbullying**")
+            elif label == "not cyberbullying":
+                st.success("**Prediction: Not Cyberbullying**")
+            else:
+                st.warning("**Prediction: Could not determine**")
+                
+            st.subheader("Explanation")
+            st.write(explanation)
+
+            if label == "cyberbullying":
+                st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
+                if st.button("Chat with our AI Therapist to receive help with this situation"):
+                    st.write("Goes to AI Therapist")
+                if st.button("Generate potential responses and next steps with our AI Support Bot"):
+                    st.write("Goes to Victim Recommendations")
+                if st.button("Moderators: Use our AI Moderator Assistant for possible courses of action"):
+                    st.write("Goes to Moderator Recommendations")
+
+            # display_feedback_system("text")
+        else:
+            st.warning("Please enter some text to analyze.")
+
+with tab2:
+    st.subheader("📸 Analyze a Screenshot")
+    uploaded_file = st.file_uploader("Upload a screenshot containing text to analyze", type=["png", "jpg", "jpeg"])
+    
+    if uploaded_file is not None:
+        # Display the uploaded image
+        image = Image.open(uploaded_file)
+        st.image(image, width=400, caption="Uploaded Screenshot")
+        
+        # Process button
+        if st.button("Extract & Analyze"):
+            with st.spinner("Processing image..."):
+                # Reset file pointer to beginning
+                uploaded_file.seek(0)
+                
+                # Extract text from image
+                extracted_text = extract_text_from_image(uploaded_file)
+                
+                if extracted_text:
+                    st.subheader("Extracted Text")
+                    st.text(extracted_text)
+                    
+                    # Analyze the extracted text
+                    st.subheader("Analysis Results")
+                    with st.spinner("Analyzing extracted text..."):
+                        label, explanation = classify_with_gpt(extracted_text)
+                        
+                    if label == "cyberbullying":
+                        st.error("**Prediction: Cyberbullying**")
+                    elif label == "not cyberbullying":
+                        st.success("**Prediction: Not Cyberbullying**")
+                    else:
+                        st.warning("**Prediction: Could not determine**")
+                        
+                    st.subheader("Explanation")
+                    st.write(explanation)
+
+                    # display_feedback_system("image")
+                else:
+                    st.error("Failed to extract text from the image. Please try a clearer image.")
+                
+
+with st.expander("How to Use This App"):
+    st.markdown("""
+    ## Instructions
+    
+    ### Text Input Method:
+    - Enter a message or comment into the text box.
+    - Click **Analyze Text** to classify it as cyberbullying or not.
+    - You'll receive a prediction and explanation.
+    
+    ### Screenshot Method:
+    - Upload a screenshot containing the text you want to analyze.
+    - Click **Extract & Analyze** to process the image.
+    - The app will first extract text from the image, then analyze it for cyberbullying.
+    
+    ## Powered by GPT
+    This app uses GPT-4 for intelligent and nuanced moderation, and GPT-4 Vision for text extraction from images.
+    It's ideal for detecting not just obvious insults but also **subtle bullying, manipulation, sarcasm, or exclusionary language**.
+    """)
