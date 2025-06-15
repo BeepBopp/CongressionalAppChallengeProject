@@ -83,7 +83,7 @@ def extract_text_from_image(image_file):
         return None
 
 # UI
-st.title("🛡️ Cyberbullying Detection")
+st.title("🚨 Cyberbullying Detection")
 
 # Create tabs for different input methods
 tab1, tab2 = st.tabs(["Text Input", "Screenshot Upload"])
