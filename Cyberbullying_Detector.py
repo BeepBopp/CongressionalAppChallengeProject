@@ -85,19 +85,6 @@ def extract_text_from_image(image_file):
 # UI
 st.title("🛡️ Cyberbullying Detection")
 
-with st.sidebar:
-    st.header("About")
-    st.markdown("""
-    This app uses OpenAI's GPT model to analyze text for cyberbullying or harmful content.
-    GPT-4 provides human-level judgment and context understanding, making it suitable for detecting subtle forms of bullying, harassment, or offensive speech.
-    
-    The app can analyze:
-    - Directly entered text messages
-    - Text extracted from screenshots or images
-    
-    ⚠️ Note: Accuracy may vary depending on how short or vague the input is.
-    """)
-
 # Create tabs for different input methods
 tab1, tab2 = st.tabs(["Text Input", "Screenshot Upload"])
 
