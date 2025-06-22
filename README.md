@@ -1,6 +1,6 @@
 # Congressional App Challenge Project
 Public GitHub repository for our Cyberbullying Congressional App Challenge!
-This connects to our Streamlit app! Check out the link here: [TBD]
+This connects to our Streamlit app! Check out the link here: https://cybershield.streamlit.app/
 
 
 Here are the links to the relevant Hugging Face Spaces that we have worked on.
