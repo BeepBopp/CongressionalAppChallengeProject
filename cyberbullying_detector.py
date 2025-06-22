@@ -160,23 +160,3 @@ with tab2:
                     # display_feedback_system("image")
                 else:
                     st.error("Failed to extract text from the image. Please try a clearer image.")
-                
-
-with st.expander("How to Use This App"):
-    st.markdown("""
-    ## Instructions
-    
-    ### Text Input Method:
-    - Enter a message or comment into the text box.
-    - Click **Analyze Text** to classify it as cyberbullying or not.
-    - You'll receive a prediction and explanation.
-    
-    ### Screenshot Method:
-    - Upload a screenshot containing the text you want to analyze.
-    - Click **Extract & Analyze** to process the image.
-    - The app will first extract text from the image, then analyze it for cyberbullying.
-    
-    ## Powered by GPT
-    This app uses GPT-4 for intelligent and nuanced moderation, and GPT-4 Vision for text extraction from images.
-    It's ideal for detecting not just obvious insults but also **subtle bullying, manipulation, sarcasm, or exclusionary language**.
-    """)
