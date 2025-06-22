@@ -1,6 +1,7 @@
 import streamlit as st
 
 pages = {
+  st.Page("home_page.py", title="Home", icon="🛡️"),
   "Tools": [
     st.Page("cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨")
     # Support Therapist
