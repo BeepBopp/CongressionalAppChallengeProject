@@ -12,10 +12,9 @@ pages = {
     # Moderator Recommendations
   ],
   "Resources": [
-    # Resources for Victims
-    # Resources for Teachers / Moderators
-    # Resources for Parents
-    # etc.
+    st.Page("youth_resources.py", title="Youth Resources", icon="🫂")
+    st.Page("parent_resources.py", title="Parent Resources", icon="👪")
+    st.Page("mod_resources.py", title="Moderator Resources", icon="🤝")
   ],
   "Reach Out": [
     # About Us
