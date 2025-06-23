@@ -6,9 +6,9 @@ pages = {
     # How to use this app
   ],
   "Tools": [
-    st.Page("cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨")
+    st.Page("cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨"),
     # Support Therapist
-    st.Page("victim_rec.py", title="Recommendations", icon="💡")
+    st.Page("victim_rec.py", title="Recommendations", icon="💡"),
     # Moderator Recommendations
   ],
   "Resources": [
