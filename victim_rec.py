@@ -35,7 +35,7 @@ if user_prompt := st.chat_input("what's on your mind?"):
     with st.chat_message("assistant"):
         try:
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",  # Or gpt-4 if you have access
+                model="gpt-4.1-mini",  # Or gpt-4 if you have access
                 messages=st.session_state.messages,
             )
             reply = response.choices[0].message.content
