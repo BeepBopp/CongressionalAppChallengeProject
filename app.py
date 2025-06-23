@@ -24,5 +24,5 @@ pages = {
 }
 
 pg = st.navigation(pages)
-st.set_page_config(page_title="CyberShield", page_icon="🛡️")
+st.set_page_config(page_title="Cybershield", page_icon="🛡️")
 pg.run()
