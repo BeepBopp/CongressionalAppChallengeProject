@@ -1,17 +1,28 @@
 import streamlit as st
 
-# Set page configuration first
-st.set_page_config(page_title="Jon Tutor", page_icon="📖")
+pages = {
+  "Welcome": [
+    st.Page("home_page.py", title="Home", icon="🛡️"),
+    # How to use this app
+  ],
+  "Tools": [
+    st.Page("cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨"),
+    # Support Therapist
+    st.Page("victim_rec.py", title="Recommendations", icon="💡"),
+    # Moderator Recommendations
+  ],
+  "Resources": [
+    st.Page("youth_resources.py", title="Youth Resources", icon="🫂"),
+    st.Page("parent_resources.py", title="Parent Resources", icon="👪"),
+    st.Page("mod_resources.py", title="Moderator Resources", icon="🤝"),
+  ],
+  "Reach Out": [
+    # About Us
+    # Leave Feedback
+    # Contact Us
+  ],
+}
 
-# Define the pages using st.page_link
-pages = [
-    st.page_link("assignment.py", label="Assignment", icon="✍️"),
-    st.page_link("calendar.py", label="Calendar", icon="📆"),
-    st.page_link("writing_tips.py", label="Writing Tips", icon="💡"),
-]
-
-# Create navigation object
-nav = st.navigation(pages)
-
-# Run the selected page
-nav.run()
+pg = st.navigation(pages)
+st.set_page_config(page_title="Cybershield", page_icon="🛡️")
+pg.run()
