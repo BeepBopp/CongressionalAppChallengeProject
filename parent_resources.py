@@ -47,23 +47,25 @@ with st.expander("Scenario 3: You see hurtful comments on your child’s posts")
 
 st.header("🌐 Trusted Resources for Parents")
 st.markdown("""
-- **StopBullying.gov – Get Help Now**  
-  Official U.S. government guidance for parents, including documentation tips and escalation steps, with mental health and school‑reporting support :contentReference[oaicite:1]{index=1}
+Here are reliable websites designed to help parents support their children through cyberbullying situations:
 
-- **National Cybersecurity Alliance – Parents & Educators**  
-  Offers clear advice on how to block, report, and avoid escalation, plus guidance on legal or school intervention :contentReference[oaicite:2]{index=2}
+- [**StopBullying.gov – Get Help Now**](https://www.stopbullying.gov/resources/get-help-now)  
+  Official U.S. government guidance for recognizing, preventing, and responding to cyberbullying, including how to involve schools and authorities.
 
-- **National Children’s Alliance – Cyberbullying Resources**  
-  Tip sheets and videos specifically for parents on spotting signs, talking safely, and addressing sextortion or online abuse :contentReference[oaicite:3]{index=3}
+- [**National Cybersecurity Alliance – Parents & Educators**](https://staysafeonline.org/online-safety-privacy-basics/cyberbullying-parents/)  
+  Offers step-by-step advice for talking to kids, setting boundaries, and handling digital conflict safely.
 
-- **HEARD Alliance – Resources for Families**  
-  Focuses on understanding cyberbullying dynamics and offers curated links and family support tools :contentReference[oaicite:4]{index=4}
+- [**National Children’s Alliance – Cyberbullying Resources**](https://www.nationalchildrensalliance.org/cyberbullying/)  
+  Focused on trauma-informed guidance, this resource includes educational tools for caregivers and how to respond to serious cases like sextortion.
 
-- **Cybersmile – Who to Call**  
-  A global list of free helplines including US and international support for bullying and digital abuse :contentReference[oaicite:5]{index=5}
+- [**HEARD Alliance – Family Resources**](https://www.heardalliance.org/families-cyber-bullying/)  
+  Mental health–focused tips and support on how cyberbullying affects emotional wellbeing and how families can help.
 
-- **Echo Movement – Bullying Support Resources**  
-  Aggregates national hotlines and support services, including chat, text, and legal help resources :contentReference[oaicite:6]{index=6}
+- [**Cybersmile – Who to Call**](https://www.cybersmile.org/advice-help/category/who-to-call)  
+  A global nonprofit with hotlines and reporting options categorized by country, perfect for urgent support.
+
+- [**Echo Movement – Family Support Hub**](https://echomovement.org/resources/)  
+  Lists anti-bullying organizations, school guides, and national help services for both digital and real-world bullying.
 """)
 
 st.header("🧠 Try Our App Tools")
