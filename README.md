@@ -28,7 +28,9 @@ Pages that will be included are listed here.
           - Victims
           - Moderators
   - Resources
-      - TBD (Can brainstorm)
+      - Victims
+      - Parents
+      - Moderators (fix 404 links)
   - Reach Out
       - About Us
       - Leave Feedback
