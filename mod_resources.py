@@ -64,13 +64,10 @@ st.markdown("""
 """)
 
 st.header("🧰 Moderator Tools in This App")
-col1, col2 = st.columns(2)
+col1 = st.columns(1)
 with col1:
     if st.button("🔍 Detect Harmful Language"):
-        st.switch_page("cyberbullying_detector.py")
-with col2:
-    if st.button("💡 Recommendations for Victims"):
-        st.switch_page("recommendations.py")
+        st.switch_page("cyberbullying_detector.py")   
 
 st.markdown("""
 ---
