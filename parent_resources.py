@@ -6,97 +6,80 @@ st.set_page_config(
     layout="centered"
 )
 
-# Page Title
 st.title("👪 Resources for Parents")
 
 st.markdown("""
 ### Helping Your Child Navigate Cyberbullying
 
-Cyberbullying can be hidden, confusing, and painful—for both kids and parents. If you suspect your child is being targeted online, these resources and strategies can help you support them effectively.
+Cyberbullying can be confusing and emotionally painful—for both kids and their parents. If you suspect your child is facing online bullying, these strategies and resources can help guide you through steps to support them wisely.
 """)
 
-# What parents can do
-st.header("🛡️ What Can I Do as a Parent?")
+st.header("🛡️ What Can Parents Do?")
 st.markdown("""
-- **Stay calm and listen** — Let your child open up at their pace. Avoid reacting with anger or punishment.
-- **Document everything** — Take screenshots of messages or posts as evidence.
-- **Help block and report** the bully on the platform where the abuse happened.
-- **Talk to your child’s school** if classmates are involved.
-- **Model good digital habits** — Be kind online, respect privacy, and practice empathy.
-
-📌 *Your support can make the biggest difference. Children often suffer silently—being available and calm helps them feel safe.*
+- **Listen and validate** — Give your child space to share at their own pace and avoid jumping to conclusions.
+- **Document clearly** — Save screenshots and context (time/date/platform).
+- **Block and report** together — If they’re comfortable, assist in blocking users and filing reports.
+- **Partner with school or community** — Engage trusted adults or institutions where bullying may be occurring.
+- **Model healthy digital behavior** — Teach empathy and respectful online habits.
 """)
 
-# Parent-specific scenarios
-st.header("📚 Realistic Scenarios Parents Face")
-with st.expander("Scenario 1: Your child becomes withdrawn after using their phone"):
+st.header("📚 Typical Parent Scenarios")
+with st.expander("Scenario 1: You sense your child is hiding their phone"):
     st.markdown("""
-    **What to do:**  
-    - Gently ask if something online has upset them  
-    - Check their social media together if they're comfortable  
-    - Offer support without judgment  
-    - Reassure them you're there to help, not punish  
+    - Gently ask open questions like, “Is something online worrying you?”
+    - Offer to look together only if they agree.
+    - Reassure them the goal is support, not punishment.
     """)
 
-with st.expander("Scenario 2: Another parent tells you your child might be a victim"):
+with st.expander("Scenario 2: Another parent reports that your child’s peer is targeting your child"):
     st.markdown("""
-    **What to do:**  
-    - Thank them and talk to your child privately  
-    - Ask open-ended questions like, "Has anything online made you feel uncomfortable lately?"  
-    - Don’t force the conversation — keep the door open  
+    - Thank them for sharing and follow up privately with your child.
+    - Pose neutral questions like, “Has anyone online been unkind recently?”
+    - Keep the dialogue open—don’t pressure.
     """)
 
-with st.expander("Scenario 3: You find mean comments on your child's public posts"):
+with st.expander("Scenario 3: You see hurtful comments on your child’s posts"):
     st.markdown("""
-    **What to do:**  
-    - Take screenshots and save links  
-    - Help them report or remove the content  
-    - Discuss how it made them feel  
-    - Consider reaching out to the school if classmates are involved  
+    - Take screenshots immediately.
+    - Help your child report or hide the content.
+    - Discuss how they feel and whether to involve their school.
     """)
 
-# Trusted websites for parents
-st.header("🌐 Recommended Websites for Parents")
+st.header("🌐 Trusted Resources for Parents")
 st.markdown("""
-- [**StopBullying.gov – For Parents**](https://www.stopbullying.gov/resources/parents)  
-  U.S. government advice on signs to watch for, what to do, and how to work with schools and law enforcement.
+- **StopBullying.gov – Get Help Now**  
+  Official U.S. government guidance for parents, including documentation tips and escalation steps, with mental health and school‑reporting support :contentReference[oaicite:1]{index=1}
 
-- [**Common Sense Media**](https://www.commonsensemedia.org/articles/what-is-cyberbullying)  
-  Expert reviews and advice for parents on apps, games, and how to help children manage online risks.
+- **National Cybersecurity Alliance – Parents & Educators**  
+  Offers clear advice on how to block, report, and avoid escalation, plus guidance on legal or school intervention :contentReference[oaicite:2]{index=2}
 
-- [**ConnectSafely**](https://www.connectsafely.org/)  
-  A nonprofit with quick guides for parents on online safety, apps, privacy, and cyberbullying.
+- **National Children’s Alliance – Cyberbullying Resources**  
+  Tip sheets and videos specifically for parents on spotting signs, talking safely, and addressing sextortion or online abuse :contentReference[oaicite:3]{index=3}
 
-- [**National PTA – Cyberbullying**](https://www.pta.org/home/family-resources/safety/cyberbullying)  
-  A parent-focused resource on understanding cyberbullying and engaging in proactive conversations.
+- **HEARD Alliance – Resources for Families**  
+  Focuses on understanding cyberbullying dynamics and offers curated links and family support tools :contentReference[oaicite:4]{index=4}
 
-- [**Bark**](https://www.bark.us/blog/what-is-cyberbullying/)  
-  A monitoring tool for families, with a blog that shares tips and signs of digital distress in children.
+- **Cybersmile – Who to Call**  
+  A global list of free helplines including US and international support for bullying and digital abuse :contentReference[oaicite:5]{index=5}
 
-- [**Family Online Safety Institute**](https://www.fosi.org/)  
-  Offers digital parenting tips and policy-focused insight on keeping kids safe online.
-
-- [**The Trevor Project – For Parents**](https://www.thetrevorproject.org/resources/guide/a-guide-to-being-an-ally-to-transgender-and-nonbinary-youth/)  
-  Especially helpful if your child is LGBTQ+ and may be facing identity-based cyberbullying.
+- **Echo Movement – Bullying Support Resources**  
+  Aggregates national hotlines and support services, including chat, text, and legal help resources :contentReference[oaicite:6]{index=6}
 """)
 
-# Call to explore app features
-st.header("🧠 Try Our Tools")
-st.markdown("Explore these features to support your child directly:")
+st.header("🧠 Try Our App Tools")
+st.markdown("These tools can help your child directly and give guidance tailored to your situation:")
 
 col1, col2 = st.columns(2)
-
 with col1:
     if st.button("🔍 Detect Harmful Language"):
         st.switch_page("cyberbullying_detector.py")
 
 with col2:
     if st.button("💡 Get Situation-Based Advice"):
-        st.switch_page("victim_rec.py")  
+        st.switch_page("recommendations.py")
 
-# Closing message
 st.markdown("""
 ---
 
-👪 *Your involvement matters. Being a calm, informed, and compassionate parent is one of the best ways to help your child through tough online experiences.*  
+👪 *Your calm presence and informed guidance are powerful to your child. You’re not alone, and help is available every step of the way.*  
 """)
