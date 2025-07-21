@@ -97,7 +97,7 @@ with col1:
 
 with col2:
     if st.button("💡 Get Personalized Help"):
-        st.switch_page("recommendations.py")
+        st.switch_page("victim_rec.py")
 
 # Comforting outro
 st.markdown("""
