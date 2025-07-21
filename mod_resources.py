@@ -7,10 +7,8 @@ st.set_page_config(
 )
 
 st.title("🤝 Resources for Moderators")
-
 st.markdown("""
 ### Supporting Safe and Respectful Online Communities
-
 As a moderator, you play a vital role in protecting users—especially youth—from cyberbullying and harmful content. This page offers guidance, resources, and tools to help you moderate effectively and compassionately.
 """)
 
@@ -47,30 +45,26 @@ with st.expander("Scenario 3: Supporting a user who reports bullying"):
 
 st.header("🌐 Trusted Moderator Resources")
 st.markdown("""
-- [**Community Moderation Guide - Mozilla**](https://mozilla.github.io/network-pulse/community-moderation-guide/)  
-  Practical advice on creating welcoming online spaces and handling conflicts.
-
-- [**Center for Humane Technology – Digital Civility**](https://www.humanetech.com/digital-civility)  
-  Resources focused on promoting respectful online interactions and reducing toxicity.
-
+- [**Mozilla Community Participation Guidelines**](https://www.mozilla.org/en-US/about/governance/policies/participation/)  
+  Mozilla's comprehensive guidelines for creating welcoming online spaces and handling community conflicts.
+- [**Center for Humane Technology**](https://www.humanetech.com/)  
+  Resources focused on promoting respectful online interactions and reducing the negative effects of technology.
 - [**The Trust & Safety Professional Association (TSPA)**](https://www.tspa.org/resources)  
   A community and resource hub for moderators and safety professionals worldwide.
-
 - [**Better Internet for Kids – Moderators**](https://www.betterinternetforkids.eu/web/portal/helpline)  
   Tools and best practices to manage reports and protect children online.
-
-- [**Tech & Learning – Online Safety Tools**](https://www.techlearning.com/resources/online-safety-tools)  
-  Educational resources and tools for moderators to support safe digital environments.
+- [**Mozilla Content Moderation Practices**](https://www.mozilla.org/en-US/about/legal/content-moderation/)  
+  Mozilla's approach to content moderation and policy enforcement.
 """)
 
 st.header("🧰 Moderator Tools in This App")
-col1 = st.columns(1)
+# Fixed: st.columns(1) returns a single column object, not a tuple
+col1 = st.columns(1)[0]
 with col1:
     if st.button("🔍 Detect Harmful Language"):
         st.switch_page("cyberbullying_detector.py")   
 
 st.markdown("""
 ---
-
 🤝 *Thank you for helping keep online spaces safe, inclusive, and respectful for everyone — especially our youth.*  
 """)
