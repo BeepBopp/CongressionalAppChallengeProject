@@ -17,9 +17,8 @@ pages = {
     st.Page("mod_resources.py", title="Moderator Resources", icon="🤝"),
   ],
   "Reach Out": [
-    # About Us
-    # Leave Feedback
-    # Contact Us
+    st.Page("about_us.py", title="About Us", icon="💼"),
+    st.Page("leave_feedback.py", title="Leave Feedback", icon="💬"),
   ],
 }
 
