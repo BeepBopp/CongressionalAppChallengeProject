@@ -74,11 +74,11 @@ st.markdown("These tools can help your child directly and give guidance tailored
 col1, col2 = st.columns(2)
 with col1:
     if st.button("🔍 Detect Harmful Language"):
-        st.switch_page("cyberbullying_detector.py")
+        st.switch_page("tools_pages/cyberbullying_detector.py")
 
 with col2:
     if st.button("💡 Get Situation-Based Advice"):
-        st.switch_page("recommendations.py")
+        st.switch_page("tools_pages/recommendations.py")
 
 st.markdown("""
 ---
