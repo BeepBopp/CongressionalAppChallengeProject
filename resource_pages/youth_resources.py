@@ -93,11 +93,11 @@ col1, col2 = st.columns(2)
 
 with col1:
     if st.button("🔍 Detect Cyberbullying"):
-        st.switch_page("cyberbullying_detector.py")
+        st.switch_page("tools_pages/cyberbullying_detector.py")
 
 with col2:
     if st.button("💡 Get Personalized Help"):
-        st.switch_page("victim_rec.py")
+        st.switch_page("tools_pages/recommendations.py")
 
 # Comforting outro
 st.markdown("""
