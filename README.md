@@ -9,16 +9,6 @@ Here are the links to the relevant Hugging Face Spaces that we have worked on.
   - Financial Literacy Diagnostic Quiz: https://huggingface.co/spaces/rxu187/FinancialLiteracyQuiz
   - Cyberbullying Responses: https://huggingface.co/spaces/andreabocelli/CyberBullyingResponses/tree/main
 
-Features in our App
-  - Cyberbullying Identifier: Help students and moderators whether a conversation screenshot or sentence is cyberbullying
-  - Cyberbullying Support: Compassionate AI chatbot therapists that helps with cyberbullying victims, can be customized with different traits.
-  - Recommendations for Moderators: Generate tension-diffusing responses and control methods for online moderators or teachers, making a stressful situation easier to deal with
-  - Recommendations for Victims: Generates potential responses, offers next steps and resources, and makes it super easy to report cyberbullying to moderators or administration
-  - Administration features where users at a certain school, Discord server, etc. can login and can make reports and check for cyberbullying. Moderators can view reports and when a user checks a message from the server that is detected as cyberbullying (extra feature if we have time)
-  - Continuous improvement with feedback system and PostgreSQL storage!
-  -  [More?]
-  - Connections between Features: Prompts user to travel between the above features (with memory) depending on the scenario
-
 Pages that will be included are listed here.
   -  Home Page
   -  Tools
@@ -30,8 +20,18 @@ Pages that will be included are listed here.
   - Resources
       - Victims
       - Parents
-      - Moderators (fix 404 links)
+      - Moderators 
   - Reach Out
       - About Us
       - Leave Feedback
       - Contact Us!
+
+Things to Work On (Listed by Severity)
+  - Add Therapist
+  - Add Moderator Recommendations
+  - Add Feedback System on Leave Feedback and all of the tools
+  - Create Home Page, About Us, and Contact Us pages
+  - Create page transfer between tools (with history)
+  - Fix Cyberbullying Identifier page transfer
+  - Fix 404 links on Moderator Recommendations
+  - Extra: Add administration features
