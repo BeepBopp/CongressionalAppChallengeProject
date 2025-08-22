@@ -3,7 +3,6 @@ import streamlit as st
 pages = {
   "Welcome": [
     st.Page("welcome_pages/home_page.py", title="Home", icon="🛡️"),
-    # How to use this app
   ],
   "Tools": [
     st.Page("tools_pages/cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨"),
@@ -18,6 +17,7 @@ pages = {
   "Reach Out": [
     st.Page("reach_out_pages/about_us.py", title="About Us", icon="💼"),
     st.Page("reach_out_pages/leave_feedback.py", title="Leave Feedback", icon="💬"),
+    st.Page("reach_out_pages/contact_us.py", title="Contact Us", icon="👋"),
   ],
 }
 
