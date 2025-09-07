@@ -27,11 +27,10 @@ Pages that will be included are listed here.
       - Contact Us!
 
 Things to Work On (Listed by Severity)
-  - Add Therapist
-  - Add Moderator Recommendations
+  - Combine Moderator and Victim Recommendations
+  - Make the Recommendations page report style
   - Add Feedback System on Leave Feedback and all of the tools
   - Create Home Page, About Us, and Contact Us pages
   - Create page transfer between tools (with history)
   - Fix Cyberbullying Identifier page transfer
   - Fix 404 links on Moderator Recommendations
-  - Extra: Add administration features
