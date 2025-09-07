@@ -18,7 +18,7 @@ if "messages" not in st.session_state:
 st.title("Cyberbullying Support")
 
 for msg in st.session_state.messages:
-    if msg["role"] != "system":  # Don't show system messages to users
+    if msg["role"] != "system":  
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
