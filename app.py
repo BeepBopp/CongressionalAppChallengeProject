@@ -6,7 +6,7 @@ pages = {
   ],
   "Tools": [
     st.Page("tools_pages/cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨"),
-    # Support Therapist
+    st.Page("tools_page/therapist.py", title="Support", icon="❤️"),
     st.Page("tools_pages/recommendations.py", title="Recommendations", icon="💡"), 
     st.Page("tools_pages/moderators.py", title="Moderators", icon="🔨"), # combine with victim
   ],
