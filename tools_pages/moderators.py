@@ -15,7 +15,7 @@ if "messages" not in st.session_state:
         {"role": "assistant", "content": "Hey there, my name is modAI, how would you like me to assist? Please send over the flagged messages or conversations for me to review. Or let me know if you need any other help."}
     ]
 
-st.title("Cyberbullying Recommendations")
+st.title("Moderator Recommendations")
 
 for msg in st.session_state.messages:
     if msg["role"] != "system": 
