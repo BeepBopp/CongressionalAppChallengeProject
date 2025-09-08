@@ -7,10 +7,8 @@ from PIL import Image
 import io
 import pandas as pd
 
-# OpenAI API key
 api_key = st.secrets["OPENAI_API_KEY"]
 
-# GPT models to use
 GPT_MODEL = "gpt-4.1-mini"
 VISION_MODEL = "gpt-4.1-mini"
 
@@ -82,10 +80,8 @@ def extract_text_from_image(image_file):
         st.error(f"Error processing image: {str(e)}")
         return None
 
-# UI
 st.title("🚨 Cyberbullying Detection")
 
-# Create tabs for different input methods
 tab1, tab2 = st.tabs(["Text Input", "Screenshot Upload"])
 
 with tab1:
@@ -110,11 +106,11 @@ with tab1:
             if label == "cyberbullying":
                 st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
                 if st.button("Chat with our AI Therapist to receive help with this situation"):
-                    st.switch_page("therapist.py")
+                    st.switch_page("tools_pagse/therapist.py")
                 if st.button("Generate potential responses and next steps with our AI Support Bot"):
-                    st.switch_page("recommendations.py")
+                    st.switch_page("tools_pages/recommendations.py")
                 if st.button("Moderators: Use our AI Moderator Assistant for possible courses of action"):       
-                    st.switch_page("moderators.py")
+                    st.switch_page("tools_pages/moderators.py")
 
             # display_feedback_system("text")
         else:
@@ -125,24 +121,19 @@ with tab2:
     uploaded_file = st.file_uploader("Upload a screenshot containing text to analyze", type=["png", "jpg", "jpeg"])
     
     if uploaded_file is not None:
-        # Display the uploaded image
         image = Image.open(uploaded_file)
         st.image(image, width=400, caption="Uploaded Screenshot")
         
-        # Process button
         if st.button("Extract & Analyze"):
             with st.spinner("Processing image..."):
-                # Reset file pointer to beginning
                 uploaded_file.seek(0)
-                
-                # Extract text from image
+
                 extracted_text = extract_text_from_image(uploaded_file)
                 
                 if extracted_text:
                     st.subheader("Extracted Text")
                     st.text(extracted_text)
                     
-                    # Analyze the extracted text
                     st.subheader("Analysis Results")
                     with st.spinner("Analyzing extracted text..."):
                         label, explanation = classify_with_gpt(extracted_text)
