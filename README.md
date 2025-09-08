@@ -33,4 +33,3 @@ Things to Work On (Listed by Severity)
   - Create Home Page, About Us, and Contact Us pages
   - Create page transfer between tools (with history)
   - Fix Cyberbullying Identifier page transfer
-  - Fix 404 links on Moderator Recommendations
