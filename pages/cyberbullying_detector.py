@@ -113,8 +113,8 @@ with tab1:
                     st.session_state.page_to_switch = "Cyberbullying Support"
                 elif st.button("Generate potential responses and next steps with our AI Recommendations Bot"):
                     st.session_state.page_to_switch = "Cyberbullying Recommendations"
-                elif st.button("Moderator Assistant"):       
-                    st.session_state.page_to_switch = "Moderators: Use our AI Moderator Assistant for possible courses of action"
+                elif st.button("Moderators: Use our AI Moderator Assistant for possible courses of action"):       
+                    st.session_state.page_to_switch = "Moderator Recommendations"
             
                 if st.session_state.page_to_switch:
                     st.switch_page(st.session_state.page_to_switch)
