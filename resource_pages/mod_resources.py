@@ -49,7 +49,7 @@ st.markdown("""
   Mozilla's comprehensive guidelines for creating welcoming online spaces and handling community conflicts.
 - [**Center for Humane Technology**](https://www.humanetech.com/)  
   Resources focused on promoting respectful online interactions and reducing the negative effects of technology.
-- [**The Trust & Safety Professional Association (TSPA)**](https://www.tspa.org/resources)  
+- [**The Trust & Safety Professional Association (TSPA)**](https://www.tspa.org/curriculum/ts-curriculum/)  
   A community and resource hub for moderators and safety professionals worldwide.
 - [**Better Internet for Kids – Moderators**](https://www.betterinternetforkids.eu/web/portal/helpline)  
   Tools and best practices to manage reports and protect children online.
