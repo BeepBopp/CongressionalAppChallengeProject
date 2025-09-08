@@ -31,5 +31,5 @@ Things to Work On (Listed by Severity)
   - Make the Recommendations page report style
   - Add Feedback System on Leave Feedback and all of the tools
   - Create Home Page, About Us, and Contact Us pages
-  - Create page transfer between tools (with history)
   - Fix Cyberbullying Identifier page transfer
+  - Extra: Create page transfer between tools (with history)
