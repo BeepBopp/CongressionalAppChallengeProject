@@ -104,20 +104,20 @@ with tab1:
             st.write(explanation)
 
             if label == "cyberbullying":
-            st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
+                st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
+                
+                if "page_to_switch" not in st.session_state:
+                    st.session_state.page_to_switch = None
             
-            if "page_to_switch" not in st.session_state:
-                st.session_state.page_to_switch = None
-        
-            if st.button("Chat with our AI Therapist to receive help with this situation"):
-                st.session_state.page_to_switch = "Cyberbullying Support"
-            elif st.button("Generate potential responses and next steps with our AI Recommendations Bot"):
-                st.session_state.page_to_switch = "Cyberbullying Recommendations"
-            elif st.button("Moderator Assistant"):       
-                st.session_state.page_to_switch = "Moderators: Use our AI Moderator Assistant for possible courses of action"
-        
-            if st.session_state.page_to_switch:
-                st.switch_page(st.session_state.page_to_switch)
+                if st.button("Chat with our AI Therapist to receive help with this situation"):
+                    st.session_state.page_to_switch = "Cyberbullying Support"
+                elif st.button("Generate potential responses and next steps with our AI Recommendations Bot"):
+                    st.session_state.page_to_switch = "Cyberbullying Recommendations"
+                elif st.button("Moderator Assistant"):       
+                    st.session_state.page_to_switch = "Moderators: Use our AI Moderator Assistant for possible courses of action"
+            
+                if st.session_state.page_to_switch:
+                    st.switch_page(st.session_state.page_to_switch)
 
 
             # display_feedback_system("text")
