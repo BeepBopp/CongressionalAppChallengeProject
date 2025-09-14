@@ -106,7 +106,7 @@ with tab1:
             if label == "cyberbullying":
                 st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
 
-                col1, = st.columns(1)
+                col1 = st.columns(1)[0]
                 with col1:
                     if st.button("Chat with our AI Therapist to receive help with this situation"):
                         st.switch_page("pages/therapist.py")
