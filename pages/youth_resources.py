@@ -89,15 +89,19 @@ Here are some trusted websites that offer support, tools, and advice for dealing
 st.header("🛠️ Try Other Tools")
 st.markdown("You can get support through these tools we've made:")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button("🔍 Detect Cyberbullying"):
-        st.switch_page("tools_pages/cyberbullying_detector.py")
+        st.switch_page("pages/cyberbullying_detector.py")
 
 with col2:
+    if st.button("❤️ Receive Support"):
+        st.switch_page("pages/therapist.py")
+
+with col3:
     if st.button("💡 Get Personalized Help"):
-        st.switch_page("tools_pages/recommendations.py")
+        st.switch_page("pages/recommendations.py")
 
 # Comforting outro
 st.markdown("""
