@@ -81,7 +81,7 @@ with col2:
         st.switch_page("pages/therapist.py")
 
 with col3:
-    if st.button("💡 Get Situation-Based Advice"):
+    if st.button("💡 Get Advice"):
         st.switch_page("pages/recommendations.py")
 
 st.markdown("""
