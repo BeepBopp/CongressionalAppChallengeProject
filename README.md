@@ -27,7 +27,7 @@ Pages that will be included are listed here.
       - Contact Us!
 
 Things to Work On 
-  - Make the Recommendations page report style
+  - Make the Recommendations pages report style
   - Add Feedback System on Leave Feedback and all of the tools
   - Create Home Page, About Us, and Contact Us pages
   - Fix Cyberbullying Identifier page transfer
