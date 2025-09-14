@@ -26,10 +26,10 @@ Pages that will be included are listed here.
       - Leave Feedback
       - Contact Us!
 
-Things to Work On (Listed by Severity)
-  - Combine Moderator and Victim Recommendations
+Things to Work On 
   - Make the Recommendations page report style
   - Add Feedback System on Leave Feedback and all of the tools
   - Create Home Page, About Us, and Contact Us pages
   - Fix Cyberbullying Identifier page transfer
-  - Extra: Create page transfer between tools (with history)
+  - Extra: Add history to page transfer between tools
+  - Maybe: Combine Moderator and Victim Recommendations
