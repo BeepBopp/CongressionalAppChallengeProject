@@ -105,20 +105,15 @@ with tab1:
 
             if label == "cyberbullying":
                 st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
-                
-                if "page_to_switch" not in st.session_state:
-                    st.session_state.page_to_switch = None
-            
-                if st.button("Chat with our AI Therapist to receive help with this situation"):
-                    st.session_state.page_to_switch = "Cyberbullying Support"
-                elif st.button("Generate potential responses and next steps with our AI Recommendations Bot"):
-                    st.session_state.page_to_switch = "Cyberbullying Recommendations"
-                elif st.button("Moderators: Use our AI Moderator Assistant for possible courses of action"):       
-                    st.session_state.page_to_switch = "Moderator Recommendations"
-            
-                if st.session_state.page_to_switch:
-                    st.switch_page(st.session_state.page_to_switch)
 
+                col1 = st.columns(1)
+                with col1:
+                    if st.button("Chat with our AI Therapist to receive help with this situation"):
+                        st.switch_page("pages/therapist.py")
+                    elif st.button("Generate potential responses and next steps with our AI Recommendations Bot"):
+                        st.switch_page("pages/recommendations.py")
+                    elif st.button("Moderators: Use our AI Moderator Assistant for possible courses of action"):  
+                        st.switch_page("pages/moderators.py")
 
             # display_feedback_system("text")
         else:
