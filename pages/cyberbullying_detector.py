@@ -106,16 +106,7 @@ with tab1:
             if label == "cyberbullying":
                 st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
 
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    if st.button("Chat with our AI Therapist to receive help with this situation"):
-                        st.switch_page("pages/therapist.py")
-                with col2:
-                    if st.button("Generate potential responses and next steps with our AI Recommendations Bot"):
-                        st.switch_page("pages/recommendations.py")
-                with col3:
-                    if st.button("Moderators: Use our AI Moderator Assistant for possible courses of action"):  
-                        st.switch_page("pages/moderators.py")
+                st.page_link("therapist.py", label = "Chat with our AI Support Bot to receive help with this situation")
 
             # display_feedback_system("text")
         else:
