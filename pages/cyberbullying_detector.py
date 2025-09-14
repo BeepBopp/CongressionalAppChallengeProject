@@ -106,7 +106,9 @@ with tab1:
             if label == "cyberbullying":
                 st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
 
-                st.link_button("Chat with our AI Support Bot to receive help with this situation", "pages/therapist.py")
+                st.link_button("Chat with our AI Support Bot to receive help with this situation", "https://cybershield.streamlit.app/therapist")
+                st.link_button("Generate potential responses and next steps with our AI Recommendations Bot", "https://cybershield.streamlit.app/recommendations")
+                st.link_button("Moderators: Use our AI Moderator Assistant for possible courses of action", "https://cybershield.streamlit.app/moderators")
 
             # display_feedback_system("text")
         else:
