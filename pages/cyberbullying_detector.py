@@ -106,7 +106,7 @@ with tab1:
             if label == "cyberbullying":
                 st.write("\nWould you like to check out our other features to cope with this possible cyberbullying?")
 
-                st.page_link("pages/therapist.py", label = "Chat with our AI Support Bot to receive help with this situation")
+                st.link_button("Chat with our AI Support Bot to receive help with this situation", "pages/therapist.py")
 
             # display_feedback_system("text")
         else:
