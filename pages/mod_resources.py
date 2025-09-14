@@ -59,7 +59,7 @@ st.markdown("""
 
 st.header("🧰 Moderator Tools in This App")
 # Fixed: st.columns(1) returns a single column object, not a tuple
-col1 = st.columns(1)[0]
+col1, col2 = st.columns(2)
 with col1:
     if st.button("🔍 Detect Harmful Language"):
         st.switch_page("pages/cyberbullying_detector.py")  
