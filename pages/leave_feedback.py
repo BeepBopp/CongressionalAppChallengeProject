@@ -1,13 +1,20 @@
-from sqlalchemy import create_engine
+import psycopg2
 import streamlit as st
 
 db = st.secrets["postgres"]
 
-engine = create_engine(
-    f"postgresql+psycopg2://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['dbname']}"
-)
-
-with engine.connect() as conn:
-    result = conn.execute("SELECT NOW();")
-    for row in result:
-        st.write(row)
+try:
+    conn = psycopg2.connect(
+        host=db["host"],
+        dbname=db["dbname"],
+        user=db["user"],
+        password=db["password"],
+        port=db["port"],
+        connect_timeout=10  # so it fails quickly if blocked
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT version();")
+    row = cur.fetchone()
+    st.success(f"Connected! Postgres version: {row}")
+except Exception as e:
+    st.error(f"Database connection failed: {e}")
