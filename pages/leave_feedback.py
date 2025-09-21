@@ -4,9 +4,6 @@ import streamlit as st
 
 db = st.secrets["postgres"]
 
-# Force IPv4
-ipv4_host = socket.gethostbyname(db["host"])
-
 try:
     conn = psycopg2.connect(
         host=ipv4_host,  # IPv4 only
