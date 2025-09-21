@@ -24,7 +24,7 @@ with st.form("feedback_form"):
 
     if submitted:
         if not email or not feedback:
-            st.error("⚠️ Please fill in both fields before submitting.")
+            st.error("Please fill in both fields before submitting!")
         else:
             try:
                 conn = get_connection()
@@ -39,7 +39,7 @@ with st.form("feedback_form"):
                 conn.commit()
                 cur.close()
                 conn.close()
-                st.success("✅ Thank you! Your feedback has been submitted.")
+                st.success("Thanks! Your feedback is submitted!")
             except Exception as e:
-                st.error("❌ Could not submit feedback.")
+                st.error("Could not submit feedback. Please try again!")
                 st.exception(e)
