@@ -67,9 +67,9 @@ with col1:
                     
                     smtp_server = "smtp.gmail.com"
                     smtp_port = 587
-                    smtp_username = ai.cybershield@gmail.com
-                    smtp_password = cybershield123
-                    recipient_email = ai@cybershield@gmail.com
+                    smtp_username = "ai.cybershield@gmail.com"
+                    smtp_password = "cybershield123"
+                    recipient_email = "ai.cybershield@gmail.com"
 
                     server = smtplib.SMTP(smtp_server, smtp_port)
                     server.starttls()
