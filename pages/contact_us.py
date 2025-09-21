@@ -58,7 +58,7 @@ with col1:
 
     if st.button("Send", type="primary"):
         if not email or not message:
-            st.error("Please fill out all required fields.") # error for any blank field
+            st.error("Please fill out all required fields.")
         else:
             try:
                 valid = validate_email(email, check_deliverability=True)
@@ -90,14 +90,14 @@ with col1:
                     confirmation_body = f"Thank you for contacting us! Your message has been received.\n\nYour message: {message}"
                     confirmation_msg = MIMEMultipart()
                     confirmation_msg['From'] = smtp_username
-                    confirmation_msg['To'] = email  # Use the sender's email address here
+                    confirmation_msg['To'] = email 
                     confirmation_msg['Subject'] = confirmation_subject
                     confirmation_msg.attach(MIMEText(confirmation_body, 'plain'))
                     server.sendmail(smtp_username, email, confirmation_msg.as_string())
 
                     server.quit()
 
-                    st.success("Sent successfully! We'll reach out in a couple of business days.") 
+                    st.success("Sent successfully! We'll respond in a couple of business days.") 
                 
                     st.session_state.captcha_text = generate_captcha()
                     captcha_text, captcha_image = st.session_state.captcha_text
