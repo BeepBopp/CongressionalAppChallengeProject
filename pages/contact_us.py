@@ -41,7 +41,7 @@ with col1:
                         smtp_server = "smtp.gmail.com"
                         smtp_port = 587
                         smtp_username = "ai.cybershield@gmail.com"
-                        smtp_password = "your_gmail_app_password_here"  # Replace with your actual App Password
+                        smtp_password = st.secrets["SMTP_PASSWORD"]
                         recipient_email = "ai.cybershield@gmail.com"
 
                         # Create SMTP connection
