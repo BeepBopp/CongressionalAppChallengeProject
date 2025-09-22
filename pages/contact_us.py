@@ -6,8 +6,6 @@ from email_validator import validate_email, EmailNotValidError
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-st.set_page_config(layout="wide", page_title="Contact Us", page_icon="👋")
-
 st.title("👋 Contact Us")
 st.markdown("Have questions or comments? Contact us at ai.cybershield@gmail.com or through the contact form below!")
 
