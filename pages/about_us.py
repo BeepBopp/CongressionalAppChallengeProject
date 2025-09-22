@@ -3,7 +3,7 @@ import streamlit as st
 st.title("💼 About Us")
 
 st.markdown("""
-### Welcome to CyberShield 🛡️
+### Introduction to CyberShield 🛡️
 
 We created **CyberShield** because we kept seeing cyberbullying everywhere—on Discord, Instagram, and even inside our school’s group chats. 
 There isn’t a lot of support for cyberbullying, and victims are often left without someone to talk to, or wondering if they’re overthinking things and aren’t actually being cyberbullied.
