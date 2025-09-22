@@ -1,13 +1,11 @@
 import streamlit as st
 
-# Page configuration
 st.set_page_config(
     page_title="Youth Cyberbullying Resources",
     page_icon="🫂",
     layout="centered"
 )
 
-# Title and introduction
 st.title("🫂 Resources for Youth")
 st.markdown("""
 ### You're Not Alone
@@ -15,7 +13,6 @@ st.markdown("""
 If you're facing online bullying, we're here for you. This page offers trusted advice, examples, and helpful tools to support you.
 """)
 
-# What to do section
 st.header("🚨 What To Do If You're Being Cyberbullied")
 st.markdown("""
 - **Don't respond** to the bully. It can escalate things.
@@ -27,7 +24,6 @@ st.markdown("""
 🧠 *Remember: It's not your fault. You deserve to feel safe online.*
 """)
 
-# Example scenarios
 st.header("🎭 Example Scenarios and How to Handle Them")
 with st.expander("Scenario 1: Getting mean messages in a group chat"):
     st.markdown("""
@@ -55,7 +51,6 @@ with st.expander("Scenario 3: A classmate is spreading rumors online"):
     - Ask a school counselor or parent for help  
     """)
 
-# Helpful websites with descriptions
 st.header("🌐 Helpful Websites")
 st.markdown("""
 Here are some trusted websites that offer support, tools, and advice for dealing with cyberbullying:
@@ -85,7 +80,6 @@ Here are some trusted websites that offer support, tools, and advice for dealing
   A support and crisis hotline focused on LGBTQ+ youth — if bullying is related to identity, this is a safe and affirming place to turn.
 """)
 
-# Suggest using other tools
 st.header("🛠️ Try Other Tools")
 st.markdown("You can get support through these tools we've made:")
 
@@ -103,7 +97,6 @@ with col3:
     if st.button("💡 Get Personalized Help"):
         st.switch_page("pages/recommendations.py")
 
-# Comforting outro
 st.markdown("""
 ---
 
