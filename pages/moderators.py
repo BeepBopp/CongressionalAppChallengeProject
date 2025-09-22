@@ -9,7 +9,6 @@ except KeyError:
 
 client = OpenAI(api_key=api_key)
 
-# Use a unique key for moderator chat
 if "moderators_messages" not in st.session_state:
     st.session_state.moderators_messages = [
         {"role": "system", "content": "You are an AI chatbot that helps moderators judge cyberbullying scenarios and conversations. You should assess severity, look for patterns, and distinguish between any jokes, and actual risk. You should avoid false alarms, flag unclear cases for humans, and alert when harmful behavior is repeated. It should communicate in a natural, non-robotic way, understand internet tone, and support the moderators. First, ask what happened. Then, ask a few short follow-up questions to understand the situation. After that, write a short summary report of what happened and suggest 2–3 next steps (like flagging messages, further review, looking at patterns that could pop up in a conversation, etc.). Change what is asked to the person every time and don't repeat questions. Sometimes don't ask questions that might be difficult or sad to answer but if it is needed then yes. Keep it kind, clear, and non-judgy. Take what they best prefer, elaborate, and continue the conversation. Overall, be helpful and not have too many unnecessary details for the moderators."},
@@ -21,13 +20,11 @@ messages = st.session_state.moderators_messages
 st.title("Moderator Recommendations")
 st.file_uploader(label="Upload file", type=None, accept_multiple_files=True, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible", width="stretch")
 
-# Show past messages
 for msg in messages:
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-# Handle user input
 if user_prompt := st.chat_input("what's up?"):
     messages.append({"role": "user", "content": user_prompt})
 
