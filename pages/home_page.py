@@ -2,7 +2,6 @@ import streamlit as st
 
 st.title("🛡️ Welcome to CyberShield")
 
-st.markdown("Welcome to CyberShield!")
 st.markdown("CyberShield is a collection of bots that work together to identify cyberbullying, respond to it, and offer compassionate support to victims who suffer from online harassment. We offer multiple bots that deal with various aspects of cyberbullying:")
 
 st.markdown("CYBERBULLYING DETECTOR: This bot analyzes certain messages (both screenshots and words) to determine if they are considered cyberbullying or not.")
