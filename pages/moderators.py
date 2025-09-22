@@ -17,6 +17,7 @@ if "moderators_messages" not in st.session_state:
     ]
 
 messages = st.session_state.moderators_messages
+st.file_uploader(label, type=None, accept_multiple_files=True, key=None, help=None, on_change=None, args=None, kwargs=None, *, disabled=False, label_visibility="visible", width="stretch")
 
 st.title("Moderator Recommendations")
 
