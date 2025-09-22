@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 st.title("👋 Contact Us")
-st.markdown("Have questions or comments? Contact us at ai.cybershield@gmail.com or through the contact form below!")
+st.markdown("Contact us at ai.cybershield@gmail.com or through the contact form below!")
 
 # Initialize form fields in session state
 if 'email_value' not in st.session_state:
