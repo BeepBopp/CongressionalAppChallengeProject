@@ -29,6 +29,5 @@ Pages that will be included are listed here.
 Things to Work On 
   - Make the Recommendations pages report style
   - Add Feedback System on Leave Feedback and all of the tools
-  - Create Home Page, About Us, and Contact Us pages
+  - Create About Us page
   - Extra: Add history to page transfer between tools
-  - Maybe: Combine Moderator and Victim Recommendations
