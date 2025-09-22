@@ -6,7 +6,7 @@ import streamlit as st
 
 
 st.markdown("""
-# Welcome to CyberShield 🛡️
+### Welcome to CyberShield 🛡️
 
 
 We created **CyberShield** because we kept seeing cyberbullying everywhere—on Discord, Instagram, and even inside our school’s group chats. 
@@ -16,7 +16,7 @@ There isn’t a lot of support for cyberbullying, and victims are often left wit
 ---
 
 
-## 💡 What CyberShield Offers
+### 💡 What CyberShield Offers
 
 
 - **Cyberbullying Detector** 
@@ -38,7 +38,7 @@ There isn’t a lot of support for cyberbullying, and victims are often left wit
 ---
 
 
-## 🧠 How We Built It
+### 🧠 How We Built It
 
 
 When we were brainstorming ideas, we first tried a cyberbullying detector—and we liked it a lot. 
@@ -49,7 +49,7 @@ Once the AIs were complete, we finalized the overall look of the website.
 ---
 
 
-### 🙏 Thank You for Using CyberShield!
+#### 🙏 Thank You for Using CyberShield!
 """)
 
 
