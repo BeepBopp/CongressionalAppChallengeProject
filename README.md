@@ -30,4 +30,5 @@ Things to Work On
   - Make the Recommendations pages report style
   - Add Feedback System on Leave Feedback and all of the tools
   - Create About Us page
+  - Upload files on chatbot bots
   - Extra: Add history to page transfer between tools
