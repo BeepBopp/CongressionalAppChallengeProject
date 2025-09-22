@@ -19,8 +19,8 @@ if "therapist_messages" not in st.session_state:
 messages = st.session_state.therapist_messages 
 
 st.title("Cyberbullying Support")
+st.file_uploader(label="Upload file", type=None, accept_multiple_files=True, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible", width="stretch")
 
-# ✅ Show chat history
 for msg in messages:
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
@@ -29,7 +29,6 @@ for msg in messages:
 # ✅ Handle user input
 if user_prompt := st.chat_input("what's on your mind?"):
     messages.append({"role": "user", "content": user_prompt})
-    st.file_uploader(label="Upload file", type=None, accept_multiple_files=True, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible", width="stretch")
     with st.chat_message("user"):
         st.markdown(user_prompt)
 
