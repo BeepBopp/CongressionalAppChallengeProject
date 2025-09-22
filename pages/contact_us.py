@@ -9,7 +9,6 @@ from email.mime.multipart import MIMEMultipart
 st.title("👋 Contact Us")
 st.markdown("Contact us at ai.cybershield@gmail.com or through the contact form below!")
 
-# Initialize form fields in session state
 if 'email_value' not in st.session_state:
     st.session_state.email_value = ''
 if 'message_value' not in st.session_state:
@@ -18,7 +17,6 @@ if 'message_value' not in st.session_state:
 col1, col2 = st.columns([4, 1])
 
 with col1:
-    # Contact form
     st.session_state.email_value = st.text_input("**Your email***", value=st.session_state.email_value, key='email_input')
     st.session_state.message_value = st.text_area("**Your message***", value=st.session_state.message_value, key='message_input')
 
@@ -32,23 +30,19 @@ with col1:
             st.error("Please fill out all required fields.")
         else:
             try:
-                # Validate email format only (faster)
                 valid = validate_email(email, check_deliverability=False)
                 validated_email = valid.email
 
-                # SMTP configuration
                 smtp_server = "smtp.gmail.com"
                 smtp_port = 587
                 smtp_username = "ai.cybershield@gmail.com"
                 smtp_password = st.secrets["SMTP_PASSWORD"]
                 recipient_email = "ai.cybershield@gmail.com"
 
-                # Create SMTP connection
                 with smtplib.SMTP(smtp_server, smtp_port) as server:
                     server.starttls()
                     server.login(smtp_username, smtp_password)
 
-                    # Send notification email to you
                     subject = "Contact Form Submission"
                     body = f"New contact form submission:\n\nEmail: {validated_email}\nMessage: {message}"
                     msg = MIMEMultipart()
@@ -58,7 +52,6 @@ with col1:
                     msg.attach(MIMEText(body, 'plain'))
                     server.sendmail(smtp_username, recipient_email, msg.as_string())
 
-                    # Send confirmation email to user
                     current_datetime = datetime.datetime.now()
                     formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
                     confirmation_subject = f"Confirmation of Contact Form Submission ({formatted_datetime})"
@@ -72,11 +65,9 @@ with col1:
 
                 st.success("Message sent successfully! We'll respond within a couple of business days.")
 
-                # Clear form fields
                 st.session_state.email_value = ''
                 st.session_state.message_value = ''
 
-                # Rerun to refresh form
                 st.experimental_rerun()
 
             except EmailNotValidError as e:
