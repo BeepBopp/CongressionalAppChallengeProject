@@ -8,6 +8,7 @@ st.markdown("⬇️How this app helps⬇️")
 st.markdown("- Empowers teens to respond to online bullying with confidence")  
 st.markdown("- Offers a safe space to share feelings and find coping strategies")  
 st.markdown("- Provides resources and scenarios for learning and growth")  
+st.markdown("")
 
 st.markdown("Here is a brief desription of our bots:")
 st.markdown("🚨 CYBERBULLYING DETECTOR: Analyzes certain messages (both screenshots and words) to determine if they are considered cyberbullying or not.")
