@@ -36,10 +36,10 @@ if 'message_value' not in st.session_state:
 col1, col2, col3, col4 = st.columns([3, 0.25, 1, 0.25]) 
 
 with col3:
-    st.markdown('<p style="text-align: justify; font-size: 12px;">CAPTCHAs are active to prevent automated submissions. <br> Thank you for your understanding.</p>', unsafe_allow_html=True)
+    st.markdown('<p style="text-align: justify; font-size: 12px;">CAPTCHAs are active to prevent automated submissions. Thank you for your understanding.</p>', unsafe_allow_html=True)
     
     # Display current CAPTCHA
-    st.image(st.session_state.captcha_image, use_column_width=True)
+    st.image(st.session_state.captcha_image, use_container_width=True)
 
     if st.button("Refresh CAPTCHA", type="secondary", use_container_width=True): 
         st.session_state.captcha_text, st.session_state.captcha_image = generate_captcha()
