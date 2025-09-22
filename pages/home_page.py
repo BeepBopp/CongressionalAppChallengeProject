@@ -14,4 +14,4 @@ st.markdown("🚨 CYBERBULLYING DETECTOR: Analyzes certain messages (both screen
 st.markdown("❤️ SUPPORT (rAIna): Serves as a therapist to cyberbullying victims who just want to vent about their experiences, and offer coping strategies.")
 st.markdown("💡 RECCOMENDATIONS (cyberAssist): cyberAssist is a supportive chatbot that helps teens respond to online bullying with clear next steps that are tailored to fit the victim's desires to move forward.")
 st.markdown("🔨 MODERATOR (modAI): modAI identify and assess potential cyberbullying by understanding context, patterns, etc while minimizing false alarms.")
-st.markdown("📚 ADDITIONAL RESOURSES: We have also provided digital resourses for youths, parents, and moderators. Links and scenarios help youths build coping skills, parents guide with empathy, and moderators create safer online spaces.")
+st.markdown("📚 ADDITIONAL RESOURCES: We have also provided digital resources for youths, parents, and moderators. Links and scenarios help kids build coping skills, parents guide with empathy, and moderators create safer online spaces.")
