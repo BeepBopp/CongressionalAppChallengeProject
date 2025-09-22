@@ -69,5 +69,5 @@ with col2:
 
 st.markdown("""
 ---
-🤝 *Thank you for helping keep online spaces safe, inclusive, and respectful for everyone — especially our youth.*  
+🤝 *Thank you for helping keep online spaces safe, inclusive, and respectful for everyone!*  
 """)
