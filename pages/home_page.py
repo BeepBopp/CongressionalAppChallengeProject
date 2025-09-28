@@ -16,6 +16,20 @@ CyberShield is a collection of bots that work together to identify cyberbullying
 
 Here is a brief description of our bots: 
 
+🚨 CYBERBULLYING DETECTOR: [st.link("Analyze messages for cyberbullying", "https://cybershield.streamlit.app/cyberbullying_detector")]
+
+❤️ SUPPORT (rAIna): [st.link("Talk to a supportive therapist", "https://cybershield.streamlit.app/therapist")]
+
+💡 RECOMMENDATIONS (cyberAssist): [st.link("Get personalized advice for handling bullying", "https://cybershield.streamlit.app/recommendations")]
+
+🔨 MODERATOR (modAI): [st.link("AI-powered moderation tools", "https://cybershield.streamlit.app/moderators")]
+
+📚 ADDITIONAL RESOURCES:
+- [st.link("Youth coping strategies", "https://cybershield.streamlit.app/youth_resources")]
+- [st.link("Parent guidance tools", "https://cybershield.streamlit.app/parent_resources")]
+- [st.link("Moderator support materials", "https://cybershield.streamlit.app/mod_resources")]
+
+
 🚨 CYBERBULLYING DETECTOR: Analyzes certain messages (both screenshots and words) to determine if they are considered cyberbullying or not. 
 
 ❤️ SUPPORT (rAIna): Serves as a therapist to cyberbullying victims who just want to vent about their experiences, and offer coping strategies. 
