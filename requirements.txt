@@ -5,8 +5,5 @@ python-dotenv
 requests
 datetime
 pandas
-psycopg2-binary
-sqlalchemy
-captcha
 email-validator
 streamlit-js-eval
