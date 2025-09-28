@@ -11,7 +11,7 @@ csv_file_path = "feedback.csv"
 data = pd.DataFrame(columns=["Email", "Feedback"])
 if os.path.exists(csv_file_path):
     data = pd.read_csv(csv_file_path)
-if submit_button:
+if submitted:
     data.to_csv(csv_file_path, index=False)
     st.success("Thank you! Your feedback is submitted.")
 st.write("Current data:")
