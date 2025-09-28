@@ -7,3 +7,5 @@ datetime
 pandas
 email-validator
 streamlit-js-eval
+gspread
+google-auth
