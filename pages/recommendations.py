@@ -104,7 +104,7 @@ if user_prompt := st.chat_input("what's on your mind?"):
     with st.chat_message("assistant"):
         try:
             response = client.chat.completions.create(
-                model="gpt-4o-mini",  # Fixed the model name
+                model="gpt-4.1-mini",
                 messages=messages,
                 max_tokens=800,
                 temperature=0.7
