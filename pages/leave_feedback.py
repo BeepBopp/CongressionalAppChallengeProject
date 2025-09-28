@@ -14,11 +14,3 @@ if os.path.exists(csv_file_path):
 if submitted:
     data.to_csv(csv_file_path, index=False)
     st.success("Thank you! Your feedback is submitted.")
-st.write("Current data:")
-st.write(data)
-st.download_button(
-        label="Download CSV File",
-        data=data.to_csv(index=False).encode("utf-8"),
-        file_name="user_answers.csv",
-        mime="text/csv",
-    )
