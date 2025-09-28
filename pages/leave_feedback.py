@@ -14,10 +14,6 @@ if os.path.exists(csv_file_path):
 if submit_button:
     data.to_csv(csv_file_path, index=False)
     st.success("Thank you! Your feedback is submitted.")
-
-    except Exception as e:
-                st.error("Could not submit feedback. Please try again!")
-                st.exception(e)
 st.write("Current data:")
 st.write(data)
 st.download_button(
