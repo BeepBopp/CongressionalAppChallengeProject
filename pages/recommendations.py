@@ -88,7 +88,7 @@ with st.sidebar:
             height=100
         )
         if url_evidence:
-            st.success("✅ Link captured for context")
+            st.success("Link captured for context")
     
     st.markdown("---")
     st.markdown("Everything you share is private and secure and we never share or access what you uploaded. Please only send information you feel comfortable sharing with our AI.")
