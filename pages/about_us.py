@@ -21,7 +21,7 @@ As a result, cyberbullying has a bigger potential to be harmful, and there were 
  A support bot named rAIna for individuals who would like to express their thoughts on cyberbullying or just vent their emotions.
 - [Cyberassist](https://cybershield.streamlit.app/recommendations):
  A recommendations bot for anyone looking for clear steps on how to cope with and avoid cyberbullying.
-- [modAI](https://cybershield.streamlit.app/moderators)
+- [modAI](https://cybershield.streamlit.app/moderators):
  An AI powered tool for moderators looking for help assessing potential cyberbullies while minimizing false alarms.
 
 ---
