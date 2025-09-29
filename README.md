@@ -29,3 +29,4 @@ Pages that will be included are listed here.
 Things to Work On
   - Add Leave feedback to tools
   - Upload files on chatbot bots
+  - extra: make recommendations report style
