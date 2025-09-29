@@ -3,10 +3,12 @@ import streamlit as st
 st.title("💼 About Us")
 
 st.markdown("""
-### Introduction to CyberShield 🛡️
+### Introduction to Cybershield 🛡️
 
 We created **CyberShield** because we kept seeing cyberbullying everywhere—on Discord, Instagram, and even inside our school’s group chats. 
-There isn’t a lot of support for cyberbullying, and victims are often left without someone to talk to, or wondering if they’re overthinking things and aren’t actually being cyberbullied.
+There isn’t a lot of support for cyberbullying, and victims are often left without someone to talk to, or wondering if they’re overthinking things and aren’t actually being cyberbullied. 
+We go to an online school, so most of our social interaction is online, which makes cyberbullying an ever bigger problem because of the importance of online interactions to communicate with friends. 
+As a result, cyberbullying has a bigger potential to be harmful, and there were already several incidents of cyberbullying over the last couple years where people got extremely hurt emotionally and mentally because of their interactions online, so we built Cybershield to prevent and mitigate cyberbullying.
 
 ---
 
@@ -26,7 +28,7 @@ There isn’t a lot of support for cyberbullying, and victims are often left wit
 ### 🧠 How We Built It
 
 When we were brainstorming ideas, we first tried a cyberbullying detector—and we liked it a lot. 
-After setting up the AI website, we split up and each worked on an individual part of the project. 
+After setting up the AI website, we split up and each worked on an individual part of the project and offered suggestions and made revisions as we tested each component.
 Once the AIs were complete, we finalized the overall look of the website.
 
 ---
