@@ -35,9 +35,6 @@ messages = st.session_state.therapist_messages
 st.title("Cyberbullying Support")
 
 for i, msg in enumerate(messages):
-    
-
-or i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
