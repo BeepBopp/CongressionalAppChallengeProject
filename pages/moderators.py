@@ -43,7 +43,7 @@ for i, msg in enumerate(messages):
             st.markdown(msg["content"])
             if msg["role"] == "assistant":
                 fb_key = f"fb_{i}"
-                selected = st.feedback("thumbs", key=fb_key)
+                selected = st.feedback("thumbs", key = fb_key, disabled = TRUE)
                 if selected is not None:
                     prev = st.session_state.feedback_synced.get(fb_key)
                     if prev != selected:
