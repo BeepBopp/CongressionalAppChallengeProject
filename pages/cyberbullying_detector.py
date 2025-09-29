@@ -113,10 +113,10 @@ with tab1:
             st.write("\nWas our classification accurate? (Answering this will let us see what you entered to improve our bot!)")
             selected = st.feedback(options = "thumbs")
 
-            if selected is 0:
-                st.write("You selected thumbs down.")
-            if selected is 1:
-                st.write("You selected thumbs up.")
+            if selected == 0:
+                st.write("down")
+            elif selected == 1:
+                st.write("up:)")
         else:
             st.warning("Please enter some text to analyze.")
 
