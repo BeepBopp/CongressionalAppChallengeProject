@@ -7,6 +7,7 @@ st.markdown("""
 
 We created **CyberShield** because we kept seeing cyberbullying everywhere—on Discord, Instagram, and even inside our school’s group chats. 
 There isn’t a lot of support for cyberbullying, and victims are often left without someone to talk to, or wondering if they’re overthinking things and aren’t actually being cyberbullied. 
+
 We go to an online school, so most of our social interaction is online, which makes cyberbullying an ever bigger problem because of how important online communication is to talk with friends who live across the country.
 As a result, cyberbullying has a bigger potential to be harmful, and there were already several incidents of cyberbullying over the last couple years where people got extremely hurt emotionally and mentally because of their interactions online, so we built Cybershield to prevent and mitigate cyberbullying.
 
