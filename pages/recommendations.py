@@ -39,7 +39,6 @@ messages = st.session_state.recommendations_messages
 
 st.title("🛡️ CyberAssist - Cyberbullying Prevention Helper")
 
-# File upload section
 with st.sidebar:
     st.header("📎 Share Evidence")
     
@@ -61,9 +60,9 @@ with st.sidebar:
             file_type = uploaded_file.type.split('/')[0]
             if file_type == 'image':
                 st.image(uploaded_file, caption="Evidence Screenshot", use_column_width=True)
-                st.success("✅ Screenshot ready to analyze")
+                st.success("Screenshot ready to analyze")
             else:
-                st.success(f"✅ File '{uploaded_file.name}' ready to analyze")
+                st.success(f"File '{uploaded_file.name}' ready to analyze")
     
     elif evidence_tab == "Text Evidence":
         st.markdown("*Copy and paste messages, comments, or posts*")
@@ -74,9 +73,9 @@ with st.sidebar:
             help="This helps me understand exactly what was said"
         )
         if text_evidence:
-            st.success(f"✅ Text evidence captured ({len(text_evidence.split())} words)")
+            st.success(f"Text evidence captured ({len(text_evidence.split())} words)")
     
-    else:  # URL/Link
+    else: 
         st.markdown("*Share links to posts, profiles, or conversations*")
         url_evidence = st.text_input(
             "Paste URL or link:",
@@ -100,10 +99,8 @@ for msg in messages:
             st.markdown(msg["content"])
 
 if user_prompt := st.chat_input("what's on your mind?"):
-    # Prepare the message content
     message_content = [{"type": "text", "text": user_prompt}]
     
-    # Add image if uploaded
     if uploaded_file is not None:
         file_type = uploaded_file.type.split('/')[0]
         
@@ -119,11 +116,10 @@ if user_prompt := st.chat_input("what's on your mind?"):
                 })
                 user_prompt += " [Screenshot attached]"
         elif file_type == 'text':
-            # Read text file content
             try:
                 text_content = uploaded_file.read().decode('utf-8')
                 user_prompt += f"\n\n[Text file content: {text_content}]"
-                message_content = user_prompt  # For text files, use simple string format
+                message_content = user_prompt
             except Exception as e:
                 st.error(f"Error reading text file: {str(e)}")
                 message_content = user_prompt
@@ -133,21 +129,18 @@ if user_prompt := st.chat_input("what's on your mind?"):
     else:
         message_content = user_prompt
     
-    # Add to messages
     if isinstance(message_content, list):
         messages.append({"role": "user", "content": message_content})
     else:
         messages.append({"role": "user", "content": message_content})
     
-    # Display user message
     with st.chat_message("user"):
         st.markdown(user_prompt)
-    
-    # Generate and display assistant response
+  
     with st.chat_message("assistant"):
         try:
             response = client.chat.completions.create(
-                model="gpt-4o-mini",  # Fixed the model name
+                model="gpt-4o-mini",  
                 messages=messages,
                 max_tokens=800,
                 temperature=0.7
@@ -156,9 +149,8 @@ if user_prompt := st.chat_input("what's on your mind?"):
             st.markdown(reply)
             messages.append({"role": "assistant", "content": reply})
             
-            # Clear uploaded file after processing
             if evidence_attached:
-                st.sidebar.success("✅ Evidence processed and analyzed")
+                st.sidebar.success("Evidence processed and analyzed.")
                 
         except Exception as e:
             st.error(f"Error: {str(e)}")
