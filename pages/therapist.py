@@ -1,5 +1,8 @@
 import streamlit as st
 from openai import OpenAI
+import gspread
+from google.oauth2.service_account import Credentials
+import pandas as pd
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -7,7 +10,19 @@ except KeyError:
     st.error("OpenAI API key not found.")
     st.stop()
 
-client = OpenAI(api_key=api_key)
+openai_client = OpenAI(api_key=api_key)
+
+scope = ["https://www.googleapis.com/auth/spreadsheets",
+         "https://www.googleapis.com/auth/drive"]
+
+creds = Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scope
+)
+gs_client = gspread.authorize(creds)
+
+SHEET_NAME = "feedback"
+worksheet = gs_client.open(SHEET_NAME).sheet1
 
 if "therapist_messages" not in st.session_state:
     st.session_state.therapist_messages = [
@@ -15,14 +30,21 @@ if "therapist_messages" not in st.session_state:
         {"role": "assistant", "content": "Hey there, I’m rAIna—your space to talk, breathe, and feel heard. What’s been on your mind lately?"}
     ]
 
-messages = st.session_state.therapist_messages 
+messages = st.session_state.therapist_messages
 
 st.title("Cyberbullying Support")
 
-for msg in messages:
+for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
+            if msg["role"] == "assistant":
+                fb_key = f"fb_{i}"
+                selected = st.feedback("thumbs", key=fb_key)
+                if selected is not None:
+                    email = "Support"
+                    feedback = "thumbs up" if selected == 1 else "thumbs down"
+                    worksheet.append_row([email.strip(), feedback.strip()])
 
 if user_prompt := st.chat_input("what's on your mind?"):
     messages.append({"role": "user", "content": user_prompt})
@@ -31,7 +53,7 @@ if user_prompt := st.chat_input("what's on your mind?"):
 
     with st.chat_message("assistant"):
         try:
-            response = client.chat.completions.create(
+            response = openai_client.chat.completions.create(
                 model="gpt-4.1-mini",
                 messages=messages,
             )
@@ -40,4 +62,3 @@ if user_prompt := st.chat_input("what's on your mind?"):
             messages.append({"role": "assistant", "content": reply})
         except Exception as e:
             st.error(f"Error: {str(e)}")
-            st.error("Please check your API key.")
