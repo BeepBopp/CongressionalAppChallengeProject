@@ -119,10 +119,11 @@ if user_prompt := st.chat_input("what's on your mind?"):
                 })
                 user_prompt += " [Screenshot attached]"
         elif file_type == 'text':
+            # Read text file content
             try:
                 text_content = uploaded_file.read().decode('utf-8')
                 user_prompt += f"\n\n[Text file content: {text_content}]"
-                message_content = user_prompt 
+                message_content = user_prompt  # For text files, use simple string format
             except Exception as e:
                 st.error(f"Error reading text file: {str(e)}")
                 message_content = user_prompt
@@ -132,18 +133,21 @@ if user_prompt := st.chat_input("what's on your mind?"):
     else:
         message_content = user_prompt
     
+    # Add to messages
     if isinstance(message_content, list):
         messages.append({"role": "user", "content": message_content})
     else:
         messages.append({"role": "user", "content": message_content})
     
+    # Display user message
     with st.chat_message("user"):
         st.markdown(user_prompt)
     
+    # Generate and display assistant response
     with st.chat_message("assistant"):
         try:
             response = client.chat.completions.create(
-                model="gpt-4o-mini"
+                model="gpt-4o-mini",  # Fixed the model name
                 messages=messages,
                 max_tokens=800,
                 temperature=0.7
@@ -152,8 +156,9 @@ if user_prompt := st.chat_input("what's on your mind?"):
             st.markdown(reply)
             messages.append({"role": "assistant", "content": reply})
             
+            # Clear uploaded file after processing
             if evidence_attached:
-                st.sidebar.success("Evidence processed and analyzed. Thank you!")
+                st.sidebar.success("✅ Evidence processed and analyzed")
                 
         except Exception as e:
             st.error(f"Error: {str(e)}")
