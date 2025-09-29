@@ -4,7 +4,7 @@ from openai import OpenAI
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
 except KeyError:
-    st.error("⚠️ OpenAI API key not found. Please add your API key to the secrets.")
+    st.error("OpenAI API key not found. Please add your API key to the secrets.")
     st.stop()
 
 client = OpenAI(api_key=api_key)
