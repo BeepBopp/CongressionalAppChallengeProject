@@ -1,9 +1,9 @@
 import streamlit as st
 
 st.markdown("""
-# 🛡️ Welcome to CyberShield
+# 🛡️ Cybershield
 
-CyberShield is a collection of bots that work together to identify cyberbullying, respond to it, and offer compassionate support to victims who suffer from online harassment.
+Cybershield is a collection of bots that work together to identify cyberbullying, respond to it, and offer compassionate support to victims who suffer from online harassment.
 
 ---
 
