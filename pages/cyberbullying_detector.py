@@ -110,7 +110,13 @@ with tab1:
                 st.link_button("Generate potential responses and next steps with our AI Recommendations Bot", "https://cybershield.streamlit.app/recommendations")
                 st.link_button("Moderators: Use our AI Moderator Assistant for possible courses of action", "https://cybershield.streamlit.app/moderators")
 
-            st.feedback(options = "thumbs")
+            st.write("\nWas our classification accurate?")
+            selected = st.feedback(options = "thumbs")
+
+            if selected is 0:
+                st.write("You selected thumbs down.")
+            if selected is 1:
+                st.write("You selected thumbs up.")
         else:
             st.warning("Please enter some text to analyze.")
 
