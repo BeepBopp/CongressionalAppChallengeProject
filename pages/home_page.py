@@ -23,12 +23,9 @@ Here is a brief description of our bots:
 
 ❤️ [SUPPORT (rAIna)](https://cybershield.streamlit.app/therapist): Serves as a therapist to cyberbullying victims who just want to vent about their experiences, and offer coping strategies. 
 
-💡 [RECOMMENDATIONS (cyberAssist)](https://cybershield.streamlit.app/recommendations): cyberAssist is a supportive chatbot that helps teens respond to online bullying with clear next steps that are tailored to fit the victim's desires to move forward. 
+💡 [RECOMMENDATIONS (Cyberassist)](https://cybershield.streamlit.app/recommendations): cyberAssist is a supportive chatbot that helps teens respond to online bullying with clear next steps that are tailored to fit the victim's desires to move forward. 
 
 🔨 [MODERATOR (modAI)](https://cybershield.streamlit.app/moderators): modAI identifies and assess potential cyberbullying by understanding context, patterns, etc while minimizing false alarms. 
 
-📚 ADDITIONAL RESOURCES:
-- [Youth Resources](https://cybershield.streamlit.app/youth_resources)
-- [Parent Resources](https://cybershield.streamlit.app/parent_resources)
-- [Moderator Resources](https://cybershield.streamlit.app/mod_resources): We have also provided digital resources for youths, parents, and moderators. Links and scenarios help kids build coping skills, parents guide with empathy, and moderators create safer online spaces.
+📚 ADDITIONAL RESOURCES: We have also provided digital resources for [youth](https://cybershield.streamlit.app/youth_resources), [parents](https://cybershield.streamlit.app/parent_resources), and [moderators]((https://cybershield.streamlit.app/mod_resources)). Links and scenarios help kids build coping skills, parents guide with empathy, and moderators create safer online spaces.
 """)
