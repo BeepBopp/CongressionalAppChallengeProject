@@ -35,17 +35,21 @@ messages = st.session_state.therapist_messages
 st.title("Cyberbullying Support")
 
 for i, msg in enumerate(messages):
-    if msg["role"] != "system":
+    
+if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             if msg["role"] == "assistant":
                 fb_key = f"fb_{i}"
                 selected = st.feedback("thumbs", key=fb_key)
                 if selected is not None:
-                    email = "Support"
-                    feedback = "thumbs up" if selected == 1 else "thumbs down"
-                    worksheet.append_row([email.strip(), feedback.strip()])
-                    st.toast("Feedback submitted! Thank you!")
+                    prev = st.session_state.feedback_synced.get(fb_key)
+                    if prev != selected:
+                        email = "Support"
+                        feedback = "thumbs up" if selected == 1 else "thumbs down"
+                        worksheet.append_row([email.strip(), feedback.strip()])
+                        st.session_state.feedback_synced[fb_key] = selected
+                        st.toast("Feedback submitted! Thank you!")
 
 if user_prompt := st.chat_input("what's on your mind?"):
     messages.append({"role": "user", "content": user_prompt})
