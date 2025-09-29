@@ -15,9 +15,9 @@ As a result, cyberbullying has a bigger potential to be harmful, and there were 
 ### 💡 What CyberShield Offers
 
 - **Cyberbullying Detector** 
- For people who are unsure if they are being cyberbullied.
+ For people who are unsure if they are being cyberbullied and would like to get a second opinion on their situation.
 - **Support** 
- For therapy-seeking individuals who are being cyberbullied or just want to vent their emotions.
+ For individuals who would like to express their thoughts on thier situation or just vent their emotions.
 - **Recommendations** 
  For anyone looking for clear steps on how to cope with and avoid cyberbullying.
 - **Moderator** 
