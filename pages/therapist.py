@@ -30,6 +30,9 @@ if "therapist_messages" not in st.session_state:
         {"role": "assistant", "content": "Hey there, I’m rAIna—your space to talk, breathe, and feel heard. What’s been on your mind lately?"}
     ]
 
+if "feedback_synced" not in st.session_state:
+    st.session_state.feedback_synced = {}
+
 messages = st.session_state.therapist_messages
 
 st.title("Cyberbullying Support")
@@ -66,4 +69,3 @@ if user_prompt := st.chat_input("what's on your mind?"):
             st.feedback("thumbs", key=f"fb_{len(messages)}")
             messages.append({"role": "assistant", "content": reply})
         except Exception as e:
-            st.error(f"Error: {str(e)}")
