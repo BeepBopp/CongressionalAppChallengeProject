@@ -26,8 +26,6 @@ Pages that will be included are listed here.
       - Leave Feedback
       - Contact Us!
 
-Things to Work On 
-  - Make the Recommendations pages report style
-  - Add Feedback System on Leave Feedback and all of the tools
+Things to Work On
+  - Add Leave feedback to tools
   - Upload files on chatbot bots
-  - Extra: Add history to page transfer between tools
