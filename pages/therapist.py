@@ -4,7 +4,7 @@ from openai import OpenAI
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
 except KeyError:
-    st.error("⚠️ OpenAI API key not found. Please add your API key to the secrets.")
+    st.error("OpenAI API key not found.")
     st.stop()
 
 client = OpenAI(api_key=api_key)
@@ -40,4 +40,4 @@ if user_prompt := st.chat_input("what's on your mind?"):
             messages.append({"role": "assistant", "content": reply})
         except Exception as e:
             st.error(f"Error: {str(e)}")
-            st.error("Please check your API key and try again.")
+            st.error("Please check your API key.")
