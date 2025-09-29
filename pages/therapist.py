@@ -59,6 +59,7 @@ if user_prompt := st.chat_input("what's on your mind?"):
             )
             reply = response.choices[0].message.content
             st.markdown(reply)
+            st.feedback("thumbs", key=f"fb_{len(messages)}")
             messages.append({"role": "assistant", "content": reply})
         except Exception as e:
             st.error(f"Error: {str(e)}")
