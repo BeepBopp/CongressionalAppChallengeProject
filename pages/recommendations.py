@@ -15,25 +15,20 @@ client = OpenAI(api_key=api_key)
 def encode_image(image_file):
     """Convert uploaded image to base64 for OpenAI API"""
     try:
-        # Open and process the image
         image = Image.open(image_file)
         
-        # Convert to RGB if necessary (handles RGBA, etc.)
         if image.mode != 'RGB':
             image = image.convert('RGB')
         
-        # Save to bytes
         img_byte_arr = io.BytesIO()
         image.save(img_byte_arr, format='JPEG')
         img_byte_arr = img_byte_arr.getvalue()
-        
-        # Encode to base64
+       
         return base64.b64encode(img_byte_arr).decode('utf-8')
     except Exception as e:
         st.error(f"Error processing image: {str(e)}")
         return None
 
-# Use a unique key for recommendations chat
 if "recommendations_messages" not in st.session_state:
     st.session_state.recommendations_messages = [
         {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe."},
@@ -97,15 +92,13 @@ with st.sidebar:
             st.success("✅ Link captured for context")
     
     st.markdown("---")
-    st.markdown("🔒 *Everything you share is private and secure*")
+    st.markdown("Everything you share is private and secure and we never share or access what you uploaded. Please only send information you feel comfortable sharing with our AI.")
 
-# Show past messages
 for msg in messages:
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-# Handle user input
 if user_prompt := st.chat_input("what's on your mind?"):
     # Prepare the message content
     message_content = [{"type": "text", "text": user_prompt}]
@@ -170,12 +163,3 @@ if user_prompt := st.chat_input("what's on your mind?"):
         except Exception as e:
             st.error(f"Error: {str(e)}")
             st.error("Please check your API key and try again.")
-
-# Footer with helpful resources
-st.markdown("---")
-st.markdown("""
-<div style='text-align: center; color: #666; font-size: 0.9em;'>
-<p>🔒 Your conversations and uploads are private and secure</p>
-<p>Need immediate help? Contact: <strong>Crisis Text Line: Text HOME to 741741</strong></p>
-</div>
-""", unsafe_allow_html=True)
