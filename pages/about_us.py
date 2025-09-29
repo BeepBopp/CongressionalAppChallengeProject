@@ -15,14 +15,14 @@ As a result, cyberbullying has a bigger potential to be harmful, and there were 
 
 ### 💡 What CyberShield Offers
 
-- **Cyberbullying Detector** 
+- [Cyberbullying Detector](https://cybershield.streamlit.app/cyberbullying_detector):
  For people who are unsure if they are being cyberbullied and would like to get a second opinion on their situation.
-- **Support** 
- For individuals who would like to express their thoughts on thier situation or just vent their emotions.
-- **Recommendations** 
- For anyone looking for clear steps on how to cope with and avoid cyberbullying.
-- **Moderator** 
- For moderators looking for help assessing potential cyberbullies while minimizing false alarms.
+- [Support](https://cybershield.streamlit.app/therapist):
+ A support bot named rAIna for individuals who would like to express their thoughts on cyberbullying or just vent their emotions.
+- [Cyberassist](https://cybershield.streamlit.app/recommendations):
+ A recommendations bot for anyone looking for clear steps on how to cope with and avoid cyberbullying.
+- [modAI](https://cybershield.streamlit.app/moderators)
+ An AI powered tool for moderators looking for help assessing potential cyberbullies while minimizing false alarms.
 
 ---
 
@@ -34,7 +34,7 @@ Once the AIs were complete, we finalized the overall look of the website.
 
 ---
 
-#### 🙏 Thank You for Using CyberShield!
+#### 🙏 Thank You for Using CyberShield! We hope you benefit from this app!
 """)
 
 
