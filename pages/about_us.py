@@ -34,7 +34,7 @@ Once the AIs were complete, we finalized the overall look of the website.
 
 ---
 
-#### 🙏 Thank You for Using CyberShield! We hope you benefit from this app!
+#### 🙏 Thank You for Using Cybershield! We hope you benefit from this app!
 """)
 
 
