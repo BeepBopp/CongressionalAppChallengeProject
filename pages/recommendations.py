@@ -59,7 +59,7 @@ with st.sidebar:
         if uploaded_file is not None:
             file_type = uploaded_file.type.split('/')[0]
             if file_type == 'image':
-                st.image(uploaded_file, caption="Evidence Screenshot", use_column_width=True)
+                st.image(uploaded_file, caption="Evidence Screenshot", use_container_width=True)
                 st.success("Screenshot ready to analyze")
             else:
                 st.success(f"File '{uploaded_file.name}' ready to analyze")
