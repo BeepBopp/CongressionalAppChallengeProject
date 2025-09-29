@@ -45,6 +45,7 @@ for i, msg in enumerate(messages):
                     email = "Support"
                     feedback = "thumbs up" if selected == 1 else "thumbs down"
                     worksheet.append_row([email.strip(), feedback.strip()])
+                    st.toast("Feedback submitted! Thank you!")
 
 if user_prompt := st.chat_input("what's on your mind?"):
     messages.append({"role": "user", "content": user_prompt})
