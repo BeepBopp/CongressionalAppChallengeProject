@@ -19,6 +19,8 @@ worksheet = gs_client.open(SHEET_NAME).sheet1
 
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
+if "results" not in st.session_state:
+    st.session_state.results = {"text": {}, "image": {}}
 
 def classify_with_gpt(text):
     try:
@@ -88,67 +90,88 @@ with tab1:
         if user_input:
             with st.spinner("Analyzing..."):
                 label, explanation = classify_with_gpt(user_input)
-            if label == "cyberbullying":
-                st.error("**Prediction: Cyberbullying**")
-            elif label == "not cyberbullying":
-                st.success("**Prediction: Not Cyberbullying**")
-            else:
-                st.warning("**Prediction: Could not determine**")
-            st.subheader("Explanation")
-            st.write(explanation)
-            if label == "cyberbullying":
-                st.write("\nCyberbullying can be especially hard to deal with. Would you like to check out our other features to cope with this possible cyberbullying?")
-                st.link_button("Chat with our AI Support Bot to receive help with this situation", "https://cybershield.streamlit.app/therapist")
-                st.link_button("Generate potential responses and next steps with our AI Recommendations Bot", "https://cybershield.streamlit.app/recommendations")
-                st.link_button("Moderators: Use our AI Moderator Assistant for possible courses of action", "https://cybershield.streamlit.app/moderators")
-            st.write("\nWas our classification accurate? (Answering this will let us see what you entered to improve our bot!)")
-            fb_key = f"fb_text_{datetime.now().timestamp()}"
-            selected = st.feedback("thumbs", key=fb_key)
-            if selected is not None:
-                prev = st.session_state.feedback_synced.get(fb_key)
-                if prev != selected:
-                    correct = "thumbs up" if selected == 1 else "thumbs down"
-                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    worksheet.append_row([timestamp, correct, label, user_input])
-                    st.session_state.feedback_synced[fb_key] = selected
-                    st.toast("Feedback submitted! Thank you!")
+            st.session_state.results["text"] = {
+                "label": label,
+                "explanation": explanation,
+                "input": user_input
+            }
         else:
             st.warning("Please enter some text to analyze.")
+
+    if st.session_state.results["text"]:
+        result = st.session_state.results["text"]
+        label, explanation, user_input = result["label"], result["explanation"], result["input"]
+
+        if label == "cyberbullying":
+            st.error("**Prediction: Cyberbullying**")
+        elif label == "not cyberbullying":
+            st.success("**Prediction: Not Cyberbullying**")
+        else:
+            st.warning("**Prediction: Could not determine**")
+
+        st.subheader("Explanation")
+        st.write(explanation)
+
+        if label == "cyberbullying":
+            st.write("\nCyberbullying can be especially hard to deal with. Would you like to check out our other features to cope with this possible cyberbullying?")
+            st.link_button("Chat with our AI Support Bot to receive help with this situation", "https://cybershield.streamlit.app/therapist")
+            st.link_button("Generate potential responses and next steps with our AI Recommendations Bot", "https://cybershield.streamlit.app/recommendations")
+            st.link_button("Moderators: Use our AI Moderator Assistant for possible courses of action", "https://cybershield.streamlit.app/moderators")
+
+        st.write("\nWas our classification accurate?")
+        fb_key = "feedback_text"
+        selected = st.feedback("thumbs", key=fb_key)
+        if selected is not None:
+            prev = st.session_state.feedback_synced.get(fb_key)
+            if prev != selected:
+                correct = "thumbs up" if selected == 1 else "thumbs down"
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                worksheet.append_row([timestamp, correct, label, user_input])
+                st.session_state.feedback_synced[fb_key] = selected
+                st.toast("Feedback submitted! Thank you!")
 
 with tab2:
     st.subheader("📸 Analyze a Screenshot")
     uploaded_file = st.file_uploader("Upload a screenshot containing text to analyze", type=["png", "jpg", "jpeg"])
-    if uploaded_file is not None:
-        image = Image.open(uploaded_file)
-        st.image(image, width=400, caption="Uploaded Screenshot")
-        if st.button("Extract & Analyze"):
-            with st.spinner("Processing image..."):
-                uploaded_file.seek(0)
-                extracted_text = extract_text_from_image(uploaded_file)
-                if extracted_text:
-                    st.subheader("Extracted Text")
-                    st.text(extracted_text)
-                    st.subheader("Analysis Results")
-                    with st.spinner("Analyzing extracted text..."):
-                        label, explanation = classify_with_gpt(extracted_text)
-                    if label == "cyberbullying":
-                        st.error("**Prediction: Cyberbullying**")
-                    elif label == "not cyberbullying":
-                        st.success("**Prediction: Not Cyberbullying**")
-                    else:
-                        st.warning("**Prediction: Could not determine**")
-                    st.subheader("Explanation")
-                    st.write(explanation)
-                    st.write("\nWas our classification accurate? (Answering this will let us see what you entered to improve our bot!)")
-                    fb_key = f"fb_image_{datetime.now().timestamp()}"
-                    selected = st.feedback("thumbs", key=fb_key)
-                    if selected is not None:
-                        prev = st.session_state.feedback_synced.get(fb_key)
-                        if prev != selected:
-                            correct = "thumbs up" if selected == 1 else "thumbs down"
-                            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                            worksheet.append_row([timestamp, correct, label, extracted_text])
-                            st.session_state.feedback_synced[fb_key] = selected
-                            st.toast("Feedback submitted! Thank you!")
-                else:
-                    st.error("Failed to extract text from the image. Please try a clearer image.")
+    if st.button("Extract & Analyze") and uploaded_file is not None:
+        with st.spinner("Processing image..."):
+            uploaded_file.seek(0)
+            extracted_text = extract_text_from_image(uploaded_file)
+            if extracted_text:
+                label, explanation = classify_with_gpt(extracted_text)
+                st.session_state.results["image"] = {
+                    "label": label,
+                    "explanation": explanation,
+                    "input": extracted_text
+                }
+            else:
+                st.error("Failed to extract text from the image. Please try a clearer image.")
+
+    if st.session_state.results["image"]:
+        result = st.session_state.results["image"]
+        label, explanation, extracted_text = result["label"], result["explanation"], result["input"]
+
+        st.subheader("Extracted Text")
+        st.text(extracted_text)
+
+        if label == "cyberbullying":
+            st.error("**Prediction: Cyberbullying**")
+        elif label == "not cyberbullying":
+            st.success("**Prediction: Not Cyberbullying**")
+        else:
+            st.warning("**Prediction: Could not determine**")
+
+        st.subheader("Explanation")
+        st.write(explanation)
+
+        st.write("\nWas our classification accurate?")
+        fb_key = "feedback_image"
+        selected = st.feedback("thumbs", key=fb_key)
+        if selected is not None:
+            prev = st.session_state.feedback_synced.get(fb_key)
+            if prev != selected:
+                correct = "thumbs up" if selected == 1 else "thumbs down"
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                worksheet.append_row([timestamp, correct, label, extracted_text])
+                st.session_state.feedback_synced[fb_key] = selected
+                st.toast("Feedback submitted! Thank you!")
