@@ -6,11 +6,25 @@ import base64
 from PIL import Image
 import io
 import pandas as pd
+import gspread
+from google.oauth2.service_account import Credentials
 
 api_key = st.secrets["OPENAI_API_KEY"]
 
 GPT_MODEL = "gpt-4.1-mini"
 VISION_MODEL = "gpt-4.1-mini"
+
+scope = ["https://www.googleapis.com/auth/spreadsheets",
+         "https://www.googleapis.com/auth/drive"]
+
+creds = Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scope
+)
+gs_client = gspread.authorize(creds)
+
+SHEET_NAME = "identifier-feedback"
+worksheet = gs_client.open(SHEET_NAME).sheet1
 
 def classify_with_gpt(text):
     """Use ChatGPT to classify text and provide explanation."""
@@ -111,12 +125,16 @@ with tab1:
                 st.link_button("Moderators: Use our AI Moderator Assistant for possible courses of action", "https://cybershield.streamlit.app/moderators")
 
             st.write("\nWas our classification accurate? (Answering this will let us see what you entered to improve our bot!)")
-            selected = st.feedback(options = "thumbs")
-
-            if selected == 0:
-                st.write("down")
-            elif selected == 1:
-                st.write("up:)")
+            fb_key = f"fb_{i}"
+                selected = st.feedback("thumbs", key = fb_key)
+                if selected is not None:
+                    prev = st.session_state.feedback_synced.get(fb_key)
+                    if prev != selected:
+                        email = "Support"
+                        feedback = "thumbs up" if selected == 1 else "thumbs down"
+                        worksheet.append_row([email.strip(), feedback.strip()])
+                        st.session_state.feedback_synced[fb_key] = selected
+                        st.toast("Feedback submitted! Thank you!")
         else:
             st.warning("Please enter some text to analyze.")
 
