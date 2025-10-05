@@ -1,5 +1,6 @@
 import streamlit as st
 from openai import OpenAI
+from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
@@ -49,7 +50,8 @@ for i, msg in enumerate(messages):
                     if prev != selected:
                         email = "ModeratorRecs"
                         feedback = "thumbs up" if selected == 1 else "thumbs down"
-                        worksheet.append_row([email.strip(), feedback.strip()])
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        worksheet.append_row(timestamp, email, feedback)
                         st.session_state.feedback_synced[fb_key] = selected
                         st.toast("Feedback submitted! Thank you!")
 
