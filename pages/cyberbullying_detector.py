@@ -128,7 +128,7 @@ with tab1:
             fb_key = f"fb_{i}"
             selected = st.feedback("thumbs", key = fb_key)
             if selected is not None:
-            prev = st.session_state.feedback_synced.get(fb_key)
+                prev = st.session_state.feedback_synced.get(fb_key)
             if prev != selected:
                 email = "Support"
                 feedback = "thumbs up" if selected == 1 else "thumbs down"
