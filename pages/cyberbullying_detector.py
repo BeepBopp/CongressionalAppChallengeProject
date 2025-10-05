@@ -126,15 +126,15 @@ with tab1:
 
             st.write("\nWas our classification accurate? (Answering this will let us see what you entered to improve our bot!)")
             fb_key = f"fb_{i}"
-                selected = st.feedback("thumbs", key = fb_key)
-                if selected is not None:
-                    prev = st.session_state.feedback_synced.get(fb_key)
-                    if prev != selected:
-                        email = "Support"
-                        feedback = "thumbs up" if selected == 1 else "thumbs down"
-                        worksheet.append_row([email.strip(), feedback.strip()])
-                        st.session_state.feedback_synced[fb_key] = selected
-                        st.toast("Feedback submitted! Thank you!")
+            selected = st.feedback("thumbs", key = fb_key)
+            if selected is not None:
+            prev = st.session_state.feedback_synced.get(fb_key)
+            if prev != selected:
+                email = "Support"
+                feedback = "thumbs up" if selected == 1 else "thumbs down"
+                worksheet.append_row([email.strip(), feedback.strip()])
+                st.session_state.feedback_synced[fb_key] = selected
+                st.toast("Feedback submitted! Thank you!")
         else:
             st.warning("Please enter some text to analyze.")
 
