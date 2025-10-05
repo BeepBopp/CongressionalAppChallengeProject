@@ -39,7 +39,7 @@ messages = st.session_state.recommendations_messages
 
 st.title("🛡️ CyberAssist - Cyberbullying Prevention Helper")
 
-with st.sidebar:
+with st.right_sidebar:
     st.header("📎 Share Evidence")
     
     evidence_tab = st.selectbox(
@@ -150,7 +150,7 @@ if user_prompt := st.chat_input("what's on your mind?"):
             messages.append({"role": "assistant", "content": reply})
             
             if evidence_attached:
-                st.sidebar.success("Evidence processed and analyzed.")
+                st.right_sidebar.success("Evidence processed and analyzed.")
                 
         except Exception as e:
             st.error(f"Error: {str(e)}")
