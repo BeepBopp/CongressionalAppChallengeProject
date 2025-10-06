@@ -21,15 +21,11 @@ try:
         scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     )
     gs_client = gspread.authorize(creds)
-    worksheet_obj = gs_client.open("feedback").sheet1
+    worksheet = gs_client.open(SHEET_NAME).sheet1
 except Exception as e:
     st.error(f"Could not connect to Google Sheets: {e}")
     st.stop()
 
-if "worksheet" not in st.session_state:
-    st.session_state.worksheet = worksheet_obj
-
-worksheet = st.session_state.worksheet
 client = OpenAI(api_key=api_key)
 
 def encode_image_to_b64(file_obj):
@@ -120,10 +116,10 @@ for i, msg in enumerate(messages):
                 if selected is not None:
                     prev = st.session_state.feedback_synced.get(fb_key)
                     if prev != selected:
-                        email = "Support"
+                        email = "Recommendations"
                         feedback = "thumbs up" if selected == 1 else "thumbs down"
                         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        worksheet.append_row([timestamp, email, feedback])
+                        worksheet.append_row(timestamp, email, feedback)
                         st.session_state.feedback_synced[fb_key] = selected
                         st.toast("Feedback submitted! Thank you!")
 
