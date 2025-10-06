@@ -118,7 +118,7 @@ with tab1:
             st.link_button("Generate potential responses and next steps with our AI Recommendations Bot", "https://cybershield.streamlit.app/recommendations")
             st.link_button("Moderators: Use our AI Moderator Assistant for possible courses of action", "https://cybershield.streamlit.app/moderators")
 
-        st.write("\nWas our classification accurate?")
+        st.write("\nWas our classification accurate? (Only share feedback if you are comfortable with sharing your message with us)")
         fb_key = "feedback_text"
         selected = st.feedback("thumbs", key=fb_key)
         if selected is not None:
@@ -164,7 +164,7 @@ with tab2:
         st.subheader("Explanation")
         st.write(explanation)
 
-        st.write("\nWas our classification accurate?")
+        st.write("\nWas our classification accurate? (Only share feedback if you are comfortable with sharing your message with us)")
         fb_key = "feedback_image"
         selected = st.feedback("thumbs", key=fb_key)
         if selected is not None:
