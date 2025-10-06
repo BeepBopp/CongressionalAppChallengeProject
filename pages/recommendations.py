@@ -22,7 +22,8 @@ if "worksheet" not in st.session_state:
             scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
         )
         gs_client = gspread.authorize(creds)
-        st.session_state.worksheet = gs_client.open(st.secrets["SHEET_NAME"]).sheet1
+        SHEET_NAME = "feedback"
+        st.session_state.worksheet = gs_client.open(SHEET_NAME).sheet1
     except Exception as e:
         st.error(f"Could not connect to Google Sheets: {e}")
         st.stop()
