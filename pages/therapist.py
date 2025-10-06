@@ -17,11 +17,20 @@ except KeyError:
 
 client = OpenAI(api_key=api_key)
 
-scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scope)
+scope = ["https://www.googleapis.com/auth/spreadsheets",
+         "https://www.googleapis.com/auth/drive"]
+
+creds = Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scope
+)
 gs_client = gspread.authorize(creds)
+
 SHEET_NAME = "feedback"
-worksheet = gs_client.open(SHEET_NAME).sheet1
+worksheet_obj = gs_client.open(SHEET_NAME).sheet1
+
+if "worksheet" not in st.session_state:
+    st.session_state.worksheet = worksheet_obj
 
 def encode_image_to_b64(file_obj):
     try:
@@ -43,6 +52,8 @@ if "messages" not in st.session_state:
 
 if "evidence_image_b64" not in st.session_state:
     st.session_state.evidence_image_b64 = None
+if "evidence_image_name" not in st.session_state:
+    st.session_state.evidence_image_name = None
 if "evidence_text" not in st.session_state:
     st.session_state.evidence_text = ""
 if "evidence_textfile_content" not in st.session_state:
@@ -64,6 +75,7 @@ with st.sidebar:
                 b64 = encode_image_to_b64(uploaded)
                 if b64:
                     st.session_state.evidence_image_b64 = b64
+                    st.session_state.evidence_image_name = uploaded.name
                     st.success("Screenshot ready to analyze")
             elif mime_root == "text":
                 try:
@@ -72,6 +84,8 @@ with st.sidebar:
                     st.success("Text file ready to analyze")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
+            else:
+                st.info("Only images and plain text files are supported for analysis.")
     else:
         txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages, comments, or posts...", height=150)
         st.session_state.evidence_text = txt_ev or ""
@@ -100,6 +114,7 @@ def render_message_with_possible_image(msg):
         st.markdown(str(msg["content"]))
 
 messages = st.session_state.messages
+worksheet = st.session_state.worksheet
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
@@ -142,10 +157,9 @@ if user_input:
         reply = resp.choices[0].message.content
         assistant_msg = {"role": "assistant", "content": reply}
         messages.append(assistant_msg)
-        i = len(messages) - 1
         with st.chat_message("assistant"):
-            st.markdown(reply)
-            fb_key = f"fb_{i}"
+            render_message_with_possible_image(assistant_msg)
+            fb_key = f"fb_{len(messages)-1}"
             selected = st.feedback("thumbs", key=fb_key)
             if selected is not None:
                 prev = st.session_state.feedback_synced.get(fb_key)
