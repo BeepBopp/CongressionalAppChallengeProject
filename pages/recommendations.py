@@ -7,7 +7,7 @@ from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 
-st.set_page_config(page_title="Cyberassist", page_icon = "💡")
+st.set_page_config(page_title="Recommendations", page_icon = "💡")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
