@@ -29,7 +29,7 @@ def encode_image(image_file):
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "You are Cyberassist, a friendly and supportive chatbot that helps teens respond to online bullying."},
-        {"role": "assistant", "content": "hey, i'm Cyberassist 💛 what happened? you can tell me about it or share a screenshot if that's easier for you."}
+        {"role": "assistant", "content": "hey, i'm Cyberassist 💛 what happened? you can tell me about it or share information in the left sidebar if that's easier for you."}
     ]
 
 st.title("💡 Cyberassist")
