@@ -34,7 +34,6 @@ messages = st.session_state.recommendations_messages
 
 st.title("💡 Cyberassist")
 st.set_page_config(layout="wide")
-st.set_page_config(layout="centered")
 
 col_main, col_spacer, col_right = st.columns([4, 0.5, 2])
 
