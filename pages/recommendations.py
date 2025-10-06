@@ -4,7 +4,7 @@ import base64
 from PIL import Image
 import io
 
-st.set_page_config(page_title="Cyberassist", page_icon="💡", layout="wide")
+st.set_page_config(page_title="Cyberassist", page_icon="💡")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
