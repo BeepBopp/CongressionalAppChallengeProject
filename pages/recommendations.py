@@ -34,9 +34,10 @@ messages = st.session_state.recommendations_messages
 
 st.title("💡 Cyberassist")
 
-col_main, col_right = st.columns([3, 1])
+col_main, col_spacer, col_right = st.columns([4, 0.5, 2])
 
 with col_right:
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.header("📎 Share Evidence")
     evidence_tab = st.selectbox(
         "How would you like to share?",
