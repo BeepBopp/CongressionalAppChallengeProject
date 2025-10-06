@@ -7,7 +7,7 @@ from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 
-st.set_page_config(page_title="Cyberassist", page_icon="💡", layout="wide")
+st.set_page_config(page_title="Cyberassist", page_icon="💡")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -15,22 +15,16 @@ except KeyError:
     st.error("⚠️ OpenAI API key not found. Please add your API key to the secrets.")
     st.stop()
 
-client = OpenAI(api_key=api_key)
-
-scope = ["https://www.googleapis.com/auth/spreadsheets",
-         "https://www.googleapis.com/auth/drive"]
-
-creds = Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"],
-    scopes=scope
-)
+scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scope)
 gs_client = gspread.authorize(creds)
-
-SHEET_NAME = "feedback"
-worksheet_obj = gs_client.open(SHEET_NAME).sheet1
+worksheet_obj = gs_client.open("feedback").sheet1
 
 if "worksheet" not in st.session_state:
     st.session_state.worksheet = worksheet_obj
+
+worksheet = st.session_state.worksheet
+client = OpenAI(api_key=api_key)
 
 def encode_image_to_b64(file_obj):
     try:
@@ -52,8 +46,6 @@ if "messages" not in st.session_state:
 
 if "evidence_image_b64" not in st.session_state:
     st.session_state.evidence_image_b64 = None
-if "evidence_image_name" not in st.session_state:
-    st.session_state.evidence_image_name = None
 if "evidence_text" not in st.session_state:
     st.session_state.evidence_text = ""
 if "evidence_textfile_content" not in st.session_state:
@@ -75,7 +67,6 @@ with st.sidebar:
                 b64 = encode_image_to_b64(uploaded)
                 if b64:
                     st.session_state.evidence_image_b64 = b64
-                    st.session_state.evidence_image_name = uploaded.name
                     st.success("Screenshot ready to analyze")
             elif mime_root == "text":
                 try:
@@ -84,10 +75,8 @@ with st.sidebar:
                     st.success("Text file ready to analyze")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
-            else:
-                st.info("Only images and plain text files are supported for analysis.")
     else:
-        txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages, comments, or posts...", height=150)
+        txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         st.session_state.evidence_text = txt_ev or ""
         if st.session_state.evidence_text:
             st.success(f"Text evidence captured ({len(st.session_state.evidence_text.split())} words)")
@@ -103,8 +92,8 @@ def render_message_with_possible_image(msg):
             elif isinstance(part, dict) and part.get("type") == "image_url":
                 url = part.get("image_url", {}).get("url", "")
                 if url.startswith("data:image/jpeg;base64,"):
-                    b64 = url.split(",", 1)[1]
                     try:
+                        b64 = url.split(",", 1)[1]
                         st.image(io.BytesIO(base64.b64decode(b64)), caption="Attached image", use_container_width=True)
                     except Exception:
                         pass
@@ -114,7 +103,6 @@ def render_message_with_possible_image(msg):
         st.markdown(str(msg["content"]))
 
 messages = st.session_state.messages
-worksheet = st.session_state.worksheet
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
@@ -127,7 +115,7 @@ for i, msg in enumerate(messages):
                     prev = st.session_state.feedback_synced.get(fb_key)
                     if prev != selected:
                         email = "Support"
-                        feedback = "thumbs up" if selected == 1 else "thumbs down"
+                        feedback = "👍" if selected == 1 else "👎"
                         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         worksheet.append_row([timestamp, email, feedback])
                         st.session_state.feedback_synced[fb_key] = selected
@@ -165,7 +153,7 @@ if user_input:
                 prev = st.session_state.feedback_synced.get(fb_key)
                 if prev != selected:
                     email = "Support"
-                    feedback = "thumbs up" if selected == 1 else "thumbs down"
+                    feedback = "👍" if selected == 1 else "👎"
                     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     worksheet.append_row([timestamp, email, feedback])
                     st.session_state.feedback_synced[fb_key] = selected
