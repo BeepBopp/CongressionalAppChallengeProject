@@ -57,7 +57,7 @@ if "evidence_textfile_content" not in st.session_state:
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
 
-st.title("💡 Cyberassist")
+st.title("💡 Recommendations")
 
 with st.sidebar:
     st.header("Share Evidence")
