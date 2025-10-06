@@ -34,7 +34,7 @@ messages = st.session_state.recommendations_messages
 
 st.title("💡 Cyberassist")
 
-col_main, col_spacer, col_right = st.columns([4, 0.5, 2])
+col_main, col_spacer, col_right = st.columns([8, 0.5, 4])
 
 with col_right:
     st.markdown("<br><br>", unsafe_allow_html=True)
