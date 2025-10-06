@@ -4,7 +4,6 @@ import base64
 from PIL import Image
 import io
 from datetime import datetime
-import csv
 import os
 
 st.set_page_config(page_title="Cyberassist", page_icon="💡", layout="wide")
@@ -16,18 +15,6 @@ except KeyError:
     st.stop()
 
 client = OpenAI(api_key=api_key)
-
-class LocalWorksheet:
-    def __init__(self, path):
-        self.path = path
-        if not os.path.exists(self.path):
-            with open(self.path, "w", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow(["timestamp", "email", "feedback"])
-    def append_row(self, row):
-        with open(self.path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow(row)
 
 def encode_image_to_b64(file_obj):
     try:
@@ -57,8 +44,6 @@ if "evidence_textfile_content" not in st.session_state:
     st.session_state.evidence_textfile_content = ""
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
-if "worksheet" not in st.session_state:
-    st.session_state.worksheet = LocalWorksheet("/mnt/data/cyberassist_feedback.csv")
 
 st.title("💡 Cyberassist")
 
