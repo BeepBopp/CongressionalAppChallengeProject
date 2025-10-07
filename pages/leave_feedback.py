@@ -26,7 +26,7 @@ with st.form("feedback_form"):
 
 if submitted:
     if not email.strip() or not feedback.strip():
-        st.warning("Please enter your and email and your feedback.")
+        st.warning("Please enter the topic your feedback concerns and your feedback.")
     else:
         worksheet.append_row([timestamp, email, feedback])
         st.success("Thank you! Your feedback was submitted.")
