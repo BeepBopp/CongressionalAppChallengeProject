@@ -8,7 +8,7 @@ pages = {
     st.Page("pages/cyberbullying_detector.py", title="Cyberbullying Detector", icon="🚨"),
     st.Page("pages/therapist.py", title="Support", icon="❤️"),
     st.Page("pages/recommendations.py", title="Recommendations", icon="💡"), 
-    st.Page("pages/moderators.py", title="Moderators", icon="🔨"), # combine with victim
+    st.Page("pages/moderators.py", title="Moderators", icon="🔨"), 
   ],
   "Resources": [
     st.Page("pages/youth_resources.py", title="Youth Resources", icon="🫂"),
