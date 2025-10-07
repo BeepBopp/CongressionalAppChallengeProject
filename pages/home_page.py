@@ -29,5 +29,7 @@ Here is a brief description of our bots:
 
 📚 ADDITIONAL RESOURCES: We have also provided digital resources for [youth](https://cybershield.streamlit.app/youth_resources), [parents](https://cybershield.streamlit.app/parent_resources), and [moderators]((https://cybershield.streamlit.app/mod_resources)). Links and scenarios help kids build coping skills, parents guide with empathy, and moderators create safer online spaces.
 
+---
+
 Thank you so much for using Cybershield and its many tools and resources! We really hope you benefit from this app. Cyberbullying is tough on everyone, but we hope that our app makes it a little easier to deal with. If you notice a website bug or have comments, please [leave feedback](https://cybershield.streamlit.app/leave-feedback) or [contact us]((https://cybershield.streamlit.app/contact-us).
 """)
