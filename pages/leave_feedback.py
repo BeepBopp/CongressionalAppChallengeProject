@@ -19,7 +19,7 @@ SHEET_NAME = "feedback"
 worksheet = client.open(SHEET_NAME).sheet1
 
 with st.form("feedback_form"):
-    email = st.text_input("Email Address")
+    email = st.text_input("Topic of Concern")
     feedback = st.text_area("Your Feedback")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     submitted = st.form_submit_button("Submit")
