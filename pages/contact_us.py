@@ -66,8 +66,6 @@ with st.form("contact_us_form"):
                 st.session_state.email_value = ''
                 st.session_state.message_value = ''
 
-                st.rerun()
-
             except EmailNotValidError as e:
                 st.error(f"Invalid email address: {str(e)}")
             except smtplib.SMTPAuthenticationError:
