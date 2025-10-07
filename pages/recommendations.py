@@ -151,6 +151,6 @@ if user_input:
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
             render_message_with_possible_image(assistant_msg)
-            handle_feedback(len(messages)-1, "Support")
+            handle_feedback(len(messages)-1, "Recommendations")
     except Exception as e:
         st.error(f"Error: {str(e)}")
