@@ -31,5 +31,5 @@ Here is a brief description of our bots:
 
 ---
 
-Thank you so much for using Cybershield and its many tools and resources! We really hope you benefit from this app. Cyberbullying is tough on everyone, but we hope that our app makes it a little easier to deal with. If you notice a website bug or have comments, please [leave feedback](https://cybershield.streamlit.app/leave-feedback) or [contact us]((https://cybershield.streamlit.app/contact-us).
+Thank you so much for using Cybershield and its many tools and resources! We really hope you benefit from this app. Cyberbullying is tough on everyone, but we hope that our app makes it a little easier to deal with. If you notice a website bug or have comments, please [leave feedback](https://cybershield.streamlit.app/leave-feedback) or [contact us](https://cybershield.streamlit.app/contact-us).
 """)
