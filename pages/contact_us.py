@@ -23,7 +23,7 @@ with st.form("contact_us_form"):
 
     st.markdown('<p style="font-size: 13px;">*Required fields</p>', unsafe_allow_html=True)
 
-    if st.button("Send"):
+    if st.form_submit_button("Send"):
         if not email or not message:
             st.error("Please fill out all required fields.")
         else:
