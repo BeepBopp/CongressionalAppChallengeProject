@@ -14,9 +14,7 @@ if 'email_value' not in st.session_state:
 if 'message_value' not in st.session_state:
     st.session_state.message_value = ''
 
-col1, col2 = st.columns([4, 1])
-
-with col1:
+with st.form("contact_us_form"):
     st.session_state.email_value = st.text_input("**Your email***", value=st.session_state.email_value, key='email_input')
     st.session_state.message_value = st.text_area("**Your message***", value=st.session_state.message_value, key='message_input')
 
