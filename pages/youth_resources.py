@@ -24,7 +24,7 @@ st.markdown("""
 🧠 *Remember: It's not your fault. You deserve to feel safe online.*
 """)
 
-st.header("🎭 Example Scenarios and How to Handle Them")
+st.header("🎭 Example Scenarios")
 with st.expander("Scenario 1: Getting mean messages in a group chat"):
     st.markdown("""
     **What you can do:**  
@@ -51,7 +51,7 @@ with st.expander("Scenario 3: A classmate is spreading rumors online"):
     - Ask a school counselor or parent for help  
     """)
 
-st.header("🌐 Helpful Websites")
+st.header("🌐 Trusted Resources")
 st.markdown("""
 Here are some trusted websites that offer support, tools, and advice for dealing with cyberbullying:
 
