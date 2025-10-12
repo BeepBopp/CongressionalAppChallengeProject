@@ -26,6 +26,7 @@ st.markdown("""
 st.header("📚 Example Scenarios")
 with st.expander("Scenario 1: You sense your child is hiding their phone"):
     st.markdown("""
+    **What you can do:**  
     - Gently ask open questions like, “Is something online worrying you?”
     - Offer to look together only if they agree.
     - Reassure them the goal is support, not punishment.
@@ -33,6 +34,7 @@ with st.expander("Scenario 1: You sense your child is hiding their phone"):
 
 with st.expander("Scenario 2: Another parent reports that your child’s peer is targeting your child"):
     st.markdown("""
+    **What you can do:**  
     - Thank them for sharing and follow up privately with your child.
     - Pose neutral questions like, “Has anyone online been unkind recently?”
     - Keep the dialogue open—don’t pressure.
@@ -40,6 +42,7 @@ with st.expander("Scenario 2: Another parent reports that your child’s peer 
 
 with st.expander("Scenario 3: You see hurtful comments on your child’s posts"):
     st.markdown("""
+    **What you can do:**  
     - Take screenshots immediately.
     - Help your child report or hide the content.
     - Discuss how they feel and whether to involve their school.
