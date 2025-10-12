@@ -21,7 +21,7 @@ st.markdown("""
 - **Collaborate with platform teams** for serious incidents or repeat offenders.
 """)
 
-st.header("🚩 Common Moderator Scenarios")
+st.header("🚩 Example Scenarios")
 with st.expander("Scenario 1: Identifying subtle or coded bullying"):
     st.markdown("""
     - Watch for repeated negative comments or exclusion tactics.  
