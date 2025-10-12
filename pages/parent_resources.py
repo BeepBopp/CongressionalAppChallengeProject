@@ -16,11 +16,11 @@ Cyberbullying can be confusing and emotionally painful—for both kids and their
 
 st.header("🛡️ What Can Parents Do?")
 st.markdown("""
-- **Listen and validate** — Give your child space to share at their own pace and avoid jumping to conclusions.
-- **Document clearly** — Save screenshots and context (time/date/platform).
-- **Block and report** together — If they’re comfortable, assist in blocking users and filing reports.
-- **Partner with school or community** — Engage trusted adults or institutions where bullying may be occurring.
-- **Model healthy digital behavior** — Teach empathy and respectful online habits.
+- Give your child space to share at their own pace and avoid jumping to conclusions.
+- Save screenshots and context including the time, date, platform, and other relevant information.
+- If they’re comfortable, assist in blocking users and filing reports with the platform they are using.
+- Engage trusted adults or institutions where bullying may be occurring.
+- Model healthy digital behavior by teaching  empathy and respectful online habits.
 """)
 
 st.header("📚 Example Scenarios")
