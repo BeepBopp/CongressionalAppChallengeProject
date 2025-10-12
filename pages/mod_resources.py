@@ -14,43 +14,43 @@ As a moderator, you play an extremely important role to protect users from cyber
 
 st.header("🛠️ Key Responsibilities")
 st.markdown("""
-- **Monitor user content** for harassment, hate speech, and bullying behavior.  
-- **Respond quickly** to reports or signs of cyberbullying.  
-- **Enforce community guidelines** consistently and fairly.  
-- **Support vulnerable users** by providing resources or escalation paths.  
-- **Collaborate with platform teams** for serious incidents or repeat offenders.
+- Monitor messages and conversations for bullying or hate speech.
+- Immediately respond to signs or reports of cyberbullying. 
+- Create clear community guidelines and enfore them appropriately.
+- Offer suppot and resources to those targeted by cyberbullying.
+- Utilize tools and support made available by the platform to combat cyberbullying.
 """)
 
 st.header("🚩 Example Scenarios")
-with st.expander("Scenario 1: Identifying subtle or coded bullying"):
+with st.expander("Scenario 1: Identifying subtle cyberbullying"):
     st.markdown("""
-    - Watch for repeated negative comments or exclusion tactics.  
-    - Use keyword filters but be aware of slang or variations.  
-    - Consider context and intent before acting.
+    - Keep an eye out for a pattern of negative comments.
+    - Use a keyword search functionality (stay aware of slang or abbreviations)
+    - Make sure to understand the context and intent of the situation.
     """)
 
 with st.expander("Scenario 2: Handling false reports"):
     st.markdown("""
     - Investigate the context fully before removing content or sanctioning users.  
-    - Communicate transparently with involved parties.  
-    - Educate users on appropriate reporting behavior.
+    - Discuss the matter with all parties involved.
+    - Keep users aware on how and when to report.
     """)
 
 with st.expander("Scenario 3: Supporting a user who reports bullying"):
     st.markdown("""
     - Acknowledge their report and thank them for helping keep the community safe.  
-    - Provide resources or links to support services.  
+    - Offer support and resources to those affected.
     - If needed, escalate serious cases to platform safety teams or legal authorities.
     """)
 
 st.header("🌐 Trusted Resources")
 st.markdown("""
 - [**Mozilla Community Participation Guidelines**](https://www.mozilla.org/en-US/about/governance/policies/participation/)  
-  Mozilla's comprehensive guidelines for creating welcoming online spaces and handling community conflicts.
+  Mozilla's guidelines for welcoming online spaces and handling conflicts.
 - [**Center for Humane Technology**](https://www.humanetech.com/)  
-  Resources focused on promoting respectful online interactions and reducing the negative effects of technology.
+  Resources focused on respectful online interactions and reducing the negative effects of social media and relevant technology.
 - [**The Trust & Safety Professional Association (TSPA)**](https://www.tspa.org/curriculum/ts-curriculum/)  
-  A community and resource hub for moderators and safety professionals worldwide.
+  A resource hub for moderators and safety professionals.
 - [**Better Internet for Kids – Moderators**](https://www.betterinternetforkids.eu/web/portal/helpline)  
   Tools and best practices to manage reports and protect children online.
 - [**Mozilla Content Moderation Practices**](https://www.mozilla.org/en-US/about/legal/content-moderation/)  
@@ -68,5 +68,5 @@ with col2:
 
 st.markdown("""
 ---
-🤝 *Thank you for helping keep online spaces safe, inclusive, and respectful for everyone!*  
+🤝 *Thank you for helping keep online spaces safe and respectful!*  
 """)
