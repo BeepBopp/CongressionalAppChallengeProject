@@ -43,7 +43,7 @@ with st.expander("Scenario 3: Supporting a user who reports bullying"):
     - If needed, escalate serious cases to platform safety teams or legal authorities.
     """)
 
-st.header("🌐 Trusted Moderator Resources")
+st.header("🌐 Trusted Resources")
 st.markdown("""
 - [**Mozilla Community Participation Guidelines**](https://www.mozilla.org/en-US/about/governance/policies/participation/)  
   Mozilla's comprehensive guidelines for creating welcoming online spaces and handling community conflicts.
@@ -57,8 +57,7 @@ st.markdown("""
   Mozilla's approach to content moderation and policy enforcement.
 """)
 
-st.header("🧰 Moderator Tools in This App")
-# Fixed: st.columns(1) returns a single column object, not a tuple
+st.header("🧰 Try other toools")
 col1, col2 = st.columns(2)
 with col1:
     if st.button("🔍 Detect Harmful Language"):
