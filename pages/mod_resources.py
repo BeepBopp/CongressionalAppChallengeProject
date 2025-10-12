@@ -24,6 +24,7 @@ st.markdown("""
 st.header("🚩 Example Scenarios")
 with st.expander("Scenario 1: Identifying subtle cyberbullying"):
     st.markdown("""
+    **What you can do:**  
     - Keep an eye out for a pattern of negative comments.
     - Use a keyword search functionality (stay aware of slang or abbreviations)
     - Make sure to understand the context and intent of the situation.
@@ -31,6 +32,7 @@ with st.expander("Scenario 1: Identifying subtle cyberbullying"):
 
 with st.expander("Scenario 2: Handling false reports"):
     st.markdown("""
+    **What you can do:**  
     - Investigate the context fully before removing content or sanctioning users.  
     - Discuss the matter with all parties involved.
     - Keep users aware on how and when to report.
@@ -38,6 +40,7 @@ with st.expander("Scenario 2: Handling false reports"):
 
 with st.expander("Scenario 3: Supporting a user who reports bullying"):
     st.markdown("""
+    **What you can do:**  
     - Acknowledge their report and thank them for helping keep the community safe.  
     - Offer support and resources to those affected.
     - If needed, escalate serious cases to platform safety teams or legal authorities.
