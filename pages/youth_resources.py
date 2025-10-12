@@ -15,11 +15,11 @@ If you're facing online bullying, we're here for you. This page offers trusted a
 
 st.header("🚨 What To Do If You're Being Cyberbullied")
 st.markdown("""
-- **Don't respond** to the bully. It can escalate things.
-- **Take screenshots** of the messages or posts as evidence.
-- **Block or mute** the person on the platform.
-- **Report** the behavior to the platform or trusted adults.
-- **Talk to someone** you trust — a parent, teacher, or counselor.
+- Don't respond to the bully. It can escalate things.
+- Take screenshots of the messages or posts as evidence.
+- Block or mute the person on the platform.
+- Report the behavior to the platform or trusted adults.
+- Talk to someone you trust — a parent, teacher, or counselor.
 
 🧠 *Remember: It's not your fault. You deserve to feel safe online.*
 """)
