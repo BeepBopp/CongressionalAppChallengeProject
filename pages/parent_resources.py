@@ -23,7 +23,7 @@ st.markdown("""
 - **Model healthy digital behavior** — Teach empathy and respectful online habits.
 """)
 
-st.header("📚 Typical Parent Scenarios")
+st.header("📚 Example Scenarios")
 with st.expander("Scenario 1: You sense your child is hiding their phone"):
     st.markdown("""
     - Gently ask open questions like, “Is something online worrying you?”
@@ -68,7 +68,7 @@ Here are reliable websites designed to help parents support their children throu
   Lists anti-bullying organizations, school guides, and national help services for both digital and real-world bullying.
 """)
 
-st.header("🧠 Try Our App Tools")
+st.header("🧠 Tools in this App")
 st.markdown("These tools can help your child directly and give guidance tailored to your situation:")
 
 col1, col2, col3 = st.columns(3)
