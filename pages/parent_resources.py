@@ -45,7 +45,7 @@ with st.expander("Scenario 3: You see hurtful comments on your child’s posts")
     - Discuss how they feel and whether to involve their school.
     """)
 
-st.header("🌐 Trusted Resources for Parents")
+st.header("🌐 Trusted Resources")
 st.markdown("""
 Here are reliable websites designed to help parents support their children through cyberbullying situations:
 
@@ -68,7 +68,7 @@ Here are reliable websites designed to help parents support their children throu
   Lists anti-bullying organizations, school guides, and national help services for both digital and real-world bullying.
 """)
 
-st.header("🧠 Tools in this App")
+st.header("🧠 Try Our Tools")
 st.markdown("These tools can help your child directly and give guidance tailored to your situation:")
 
 col1, col2, col3 = st.columns(3)
