@@ -1,0 +1,22 @@
+name: Github Push
+on:
+  schedule:
+    # Every 10 hours
+    - cron: "0 */10 * * *"
+  workflow_dispatch: 
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Create empty commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "keep alive $(date)"
+      
+      - name: Push commit
+        run: git push
