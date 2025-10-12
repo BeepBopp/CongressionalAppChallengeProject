@@ -9,7 +9,7 @@ st.set_page_config(
 st.title("🤝 Resources for Moderators")
 st.markdown("""
 ### Supporting Safe and Respectful Online Communities
-As a moderator, you play a vital role in protecting users—especially youth—from cyberbullying and harmful content. This page offers guidance, resources, and tools to help you moderate effectively and compassionately.
+As a moderator, you play an extremely important role to protect users from cyberbullying and harmful content. This page offers guidance, resources, and tools to help you moderate effectively and respectively.
 """)
 
 st.header("🛠️ Key Responsibilities")
