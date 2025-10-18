@@ -44,7 +44,7 @@ def encode_image_to_b64(file_obj):
 
 if "recommendations_messages" not in st.session_state:
     st.session_state.recommendations_messages = [
-        {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING RECOMMENDATIONS AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC.  Remember to include summary in appropriate place."},
+        {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING RECOMMENDATIONS AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC. Remember to include summary in appropriate place."},
         {"role": "assistant", "content": "Hey, I'm Cyberassist. I'm here to provide advice on how to react if you encounter cyberbullying. You can tell me about it or share information in the left sidebar if that's easier for you."}
     ]
 
@@ -63,7 +63,7 @@ with st.sidebar:
     st.header("Share Evidence")
     mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
     if mode == "Upload Files":
-        uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
+        uploaded = st.file_uploader("Choose files", type=["png","jpg","jpeg","gif","bmp","webp","txt"])
         if uploaded:
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
@@ -87,8 +87,16 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message(msg):
-    st.markdown(str(msg["content"]))
+def render_message_with_possible_image(msg):
+    if isinstance(msg["content"], list):
+        texts = []
+        for part in msg["content"]:
+            if isinstance(part, dict) and part.get("type") == "text":
+                texts.append(part.get("text", ""))
+        if texts:
+            st.markdown("\n\n".join(texts))
+    else:
+        st.markdown(str(msg["content"]))
 
 def handle_feedback(msg_index, category):
     fb_key = f"fb_{msg_index}"
@@ -105,7 +113,7 @@ messages = st.session_state.recommendations_messages
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
-            render_message(msg)
+            render_message_with_possible_image(msg)
             if msg["role"] == "assistant":
                 handle_feedback(i, "Recommendations")
 
@@ -114,11 +122,11 @@ user_input = st.chat_input("What's on your mind?")
 if user_input:
     parts = [{"type": "text", "text": user_input}]
     if st.session_state.evidence_text:
-        parts.append({"type": "text", "text": "(hidden text evidence included)"})
+        parts.append({"type": "text", "text": "[User provided text evidence]"})
     if st.session_state.evidence_textfile_content:
-        parts.append({"type": "text", "text": "(hidden text file content included)"})
+        parts.append({"type": "text", "text": "[User uploaded a text file as evidence]"})
     if st.session_state.evidence_image_b64:
-        parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
+        parts.append({"type": "text", "text": "[User uploaded an image as evidence]"})
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
@@ -134,7 +142,7 @@ if user_input:
         assistant_msg = {"role": "assistant", "content": reply}
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
-            render_message(assistant_msg)
-            handle_feedback(len(messages) - 1, "Recommendations")
+            st.markdown(reply)
+            handle_feedback(len(messages)-1, "Recommendations")
     except Exception as e:
         st.error(f"Error: {str(e)}")
