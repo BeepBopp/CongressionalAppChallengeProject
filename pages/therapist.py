@@ -45,8 +45,8 @@ def encode_image_to_b64(file_bytes):
 
 if "therapist_messages" not in st.session_state:
     st.session_state.therapist_messages = [
-        {"role": "system", "content": "You are a therapist for victims of cyberbullying. Start by asking for the user’s name and what they’re going through. Be warm and approachable—like a caring older sibling. Be very conversational, do not talk for too long, make sure that they are following along. Acknowledge their emotions and suggest coping strategies: talking to a trusted adult, taking screen breaks, or diving into hobbies they enjoy. Adapt to their personality and how serious the situation feels. Ask thoughtful questions to understand their emotions, but don’t get too personal. Keep the tone friendly and informal. If they seem deeply distressed or mention self-harm or hurting others, gently suggest calling 988 for immediate help. Then guide the conversation toward comforting topics like favorite foods, shows, or hobbies. Offer calming exercises like deep breathing or grounding techniques. Summarize key points, check in to make sure they feel heard, and adjust your approach as needed. Always be kind, supportive, and ready to follow up. Ask if they need anything else before wrapping up. Stay concise. Don’t make your suggestions super obvious. Stay supportive and helpful the whole time. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING SUPPORT/THERAPY AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC. DO NOT TALK ABOUT IRRELEVANT THINGS."},
-        {"role": "assistant", "content": "Hey there, I’m rAIna, a cyberbullying support bot and your space to talk, breathe, and feel heard. Encountering cyberbullying is difficult, and I'm here to listen and support you. What’s been on your mind lately? If it's helpful, you can upload information through the left sidebar."}
+        {"role": "system", "content": "You are a therapist for victims of cyberbullying. Start by asking for the user's name and what they're going through. Be warm and approachable—like a caring older sibling. Be very conversational, do not talk for too long, make sure that they are following along. Acknowledge their emotions and suggest coping strategies: talking to a trusted adult, taking screen breaks, or diving into hobbies they enjoy. Adapt to their personality and how serious the situation feels. Ask thoughtful questions to understand their emotions, but don't get too personal. Keep the tone friendly and informal. If they seem deeply distressed or mention self-harm or hurting others, gently suggest calling 988 for immediate help. Then guide the conversation toward comforting topics like favorite foods, shows, or hobbies. Offer calming exercises like deep breathing or grounding techniques. Summarize key points, check in to make sure they feel heard, and adjust your approach as needed. Always be kind, supportive, and ready to follow up. Ask if they need anything else before wrapping up. Stay concise. Don't make your suggestions super obvious. Stay supportive and helpful the whole time. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING SUPPORT/THERAPY AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC. DO NOT TALK ABOUT IRRELEVANT THINGS."},
+        {"role": "assistant", "content": "Hey there, I'm rAIna, a cyberbullying support bot and your space to talk, breathe, and feel heard. Encountering cyberbullying is difficult, and I'm here to listen and support you. What's been on your mind lately? If it's helpful, you can upload information through the left sidebar."}
     ]
 
 if "evidence_image_b64" not in st.session_state:
@@ -61,19 +61,21 @@ if "last_image_hash" not in st.session_state:
     st.session_state.last_image_hash = None
 if "last_textfile_hash" not in st.session_state:
     st.session_state.last_textfile_hash = None
+if "last_text_evidence_hash" not in st.session_state:
+    st.session_state.last_text_evidence_hash = None
 
 st.title("❤️ Support")
 
 with st.sidebar:
     st.header("Share Evidence")
+    mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
     with st.form("evidence_form", clear_on_submit=False):
-        mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
         uploaded = None
         txt_ev = ""
         if mode == "Upload Files":
             uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
         else:
-            txt_ev = st.text_area("Paste the content here:", placeholder="Copy and paste messages...", height=150)
+            txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         submit_evidence = st.form_submit_button("Submit Evidence")
 
     if submit_evidence:
@@ -81,15 +83,18 @@ with st.sidebar:
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
                 file_bytes = uploaded.getvalue()
+                new_hash = hashlib.md5(file_bytes).hexdigest()
                 st.image(io.BytesIO(file_bytes), caption="Evidence Screenshot", use_container_width=True)
                 b64 = encode_image_to_b64(file_bytes)
                 if b64:
-                    new_hash = hashlib.md5(file_bytes).hexdigest()
                     if new_hash != st.session_state.last_image_hash:
                         st.session_state.last_image_hash = new_hash
+                        st.session_state.evidence_image_b64 = b64
                         st.toast("Screenshot uploaded")
-                    st.session_state.evidence_image_b64 = b64
-                    st.success("Screenshot ready to analyze")
+                        st.success("Screenshot ready to analyze")
+                    else:
+                        st.session_state.evidence_image_b64 = b64
+                        st.info("Screenshot already uploaded")
             elif mime_root == "text":
                 try:
                     file_bytes = uploaded.read()
@@ -97,17 +102,24 @@ with st.sidebar:
                     new_hash = hashlib.md5(file_bytes).hexdigest()
                     if new_hash != st.session_state.last_textfile_hash:
                         st.session_state.last_textfile_hash = new_hash
+                        st.session_state.evidence_textfile_content = txt
                         st.toast("Text file uploaded")
-                    st.session_state.evidence_textfile_content = txt
-                    st.success("Text file ready to analyze")
+                        st.success("Text file ready to analyze")
+                    else:
+                        st.session_state.evidence_textfile_content = txt
+                        st.info("Text file already uploaded")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
-        elif mode == "Text Evidence":
-            st.session_state.evidence_text = txt_ev or ""
-            wc = len(st.session_state.evidence_text.split())
-            if wc:
+        elif mode == "Text Evidence" and txt_ev:
+            new_hash = hashlib.md5(txt_ev.encode()).hexdigest()
+            if new_hash != st.session_state.get("last_text_evidence_hash"):
+                st.session_state.evidence_text = txt_ev
+                st.session_state.last_text_evidence_hash = new_hash
+                wc = len(txt_ev.split())
                 st.toast("Text evidence submitted")
                 st.success(f"Text evidence captured ({wc} words)")
+            else:
+                st.info("Text evidence already submitted")
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
