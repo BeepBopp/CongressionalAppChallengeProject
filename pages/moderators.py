@@ -45,7 +45,7 @@ def encode_image_to_b64(file_bytes):
 
 if "moderators_messages" not in st.session_state:
     st.session_state.moderators_messages = [
-        {"role": "system", "content": "You are an AI chatbot that helps moderators judge cyberbullying scenarios and conversations. You should assess severity, look for patterns, and distinguish between any jokes, and actual risk. DO NOT ASK TOO MANY QUESTIONS. It should communicate in a natural, non-robotic way, understand internet tone, and support the moderators. First, ask what happened. Then, ask a few short follow-up questions to understand the situation. After that, write a short summary report of what happened and suggest 2–3 next steps (like flagging messages, further review, looking at patterns that could pop up in a conversation, etc.). Change what is asked to the person every time and don't repeat questions. Sometimes don't ask questions that might be difficult or sad to answer. Take what they best prefer, elaborate, and continue the conversation. Overall, be helpful and not have too many unnecessary details for the moderators. Do not ask all questions at once, ask gradually over the course of multiple messages but DO NOT ASK TOO MANY QUESTIONS. Make sure to include summary in appropriate place. Your summary should be DETAILED and include insights the moderator otherwise wouldn't have thought of. DO NOT ENGAGE IN OFF TOPIC CONVERSATION."},
+        {"role": "system", "content": "You are an AI chatbot that helps moderators judge cyberbullying scenarios and conversations. You should assess severity, look for patterns, and distinguish between jokes and actual risk. Communicate in a natural, non-robotic way and understand internet tone.\n\nIMPORTANT CONVERSATION FLOW:\n1. When evidence is first shared, acknowledge what you see briefly (1-2 sentences)\n2. Ask ONE clarifying question to understand context (e.g., 'Do you know the relationship between these users?' or 'Has this user been flagged before?')\n3. Ask 1-2 more follow-up questions gradually over the next messages (e.g., 'How long has this been going on?' or 'What's the typical interaction pattern?')\n4. ONLY AFTER gathering context through questions, provide your detailed summary and next steps\n\nCRITICAL RULES:\n- DO NOT provide a full summary immediately when evidence is shared\n- Ask questions FIRST to gather context\n- Keep initial responses SHORT (2-3 sentences max)\n- Ask only ONE question per message\n- Be conversational and supportive to the moderator\n- Your final summary should be DETAILED and include insights the moderator wouldn't have thought of\n- DO NOT ENGAGE IN OFF TOPIC CONVERSATION"},
         {"role": "assistant", "content": "Hey there, my name is modAI, how would you like me to assist? Please send over the flagged messages or conversations for me to review in the left sidebar or in the chat. Or let me know if you need any other help."}
     ]
 
@@ -194,15 +194,17 @@ if user_input:
         api_messages = clean_messages(messages)
 
         hidden_parts = []
-        if st.session_state.evidence_text:
-            hidden_parts.append({"type": "text", "text": f"[Text evidence]\n{st.session_state.evidence_text}"})
-        if st.session_state.evidence_textfile_content:
-            hidden_parts.append({"type": "text", "text": f"[Text file content]\n{st.session_state.evidence_textfile_content}"})
-        if st.session_state.evidence_image_b64:
-            hidden_parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
+        if not st.session_state.evidence_sent:
+            if st.session_state.evidence_text:
+                hidden_parts.append({"type": "text", "text": f"[Text evidence]\n{st.session_state.evidence_text}"})
+            if st.session_state.evidence_textfile_content:
+                hidden_parts.append({"type": "text", "text": f"[Text file content]\n{st.session_state.evidence_textfile_content}"})
+            if st.session_state.evidence_image_b64:
+                hidden_parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
 
         if hidden_parts:
             api_messages.append({"role": "user", "content": hidden_parts})
+            st.session_state.evidence_sent = True
 
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
