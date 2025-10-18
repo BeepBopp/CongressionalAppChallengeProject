@@ -1,13 +1,12 @@
 import streamlit as st
 from openai import OpenAI
-import base64
 from PIL import Image
 import io
 from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 
-st.set_page_config(page_title="Recommendations", page_icon="💡")
+st.set_page_config(page_title="Support", page_icon="❤️")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -19,7 +18,7 @@ if "worksheet" not in st.session_state:
     try:
         creds = Credentials.from_service_account_info(
             st.secrets["gcp_service_account"],
-            scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+            scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
         )
         gs_client = gspread.authorize(creds)
         SHEET_NAME = "feedback"
@@ -37,15 +36,14 @@ def encode_image_to_b64(file_obj):
             image = image.convert("RGB")
         buf = io.BytesIO()
         image.save(buf, format="JPEG")
-        return base64.b64encode(buf.getvalue()).decode("utf-8")
-    except Exception as e:
-        st.error(f"Error processing image: {str(e)}")
+        return buf.getvalue()
+    except:
         return None
 
-if "recommendations_messages" not in st.session_state:
-    st.session_state.recommendations_messages = [
-        {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING RECOMMENDATIONS AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC. Remember to include summary in appropriate place."},
-        {"role": "assistant", "content": "Hey, I'm Cyberassist. I'm here to provide advice on how to react if you encounter cyberbullying. You can tell me about it or share information in the left sidebar if that's easier for you."}
+if "therapist_messages" not in st.session_state:
+    st.session_state.therapist_messages = [
+        {"role": "system", "content": "You are a therapist for victims of cyberbullying. Start by asking for the user’s name and what they’re going through. Be warm and approachable. Be very conversational, concise, and supportive. Guide the user gently and always stay on topic."},
+        {"role": "assistant", "content": "Hey there, I’m rAIna, a cyberbullying support bot. Encountering cyberbullying is difficult, and I'm here to listen and support you. What’s been on your mind lately?"}
     ]
 
 if "evidence_image_b64" not in st.session_state:
@@ -57,7 +55,7 @@ if "evidence_textfile_content" not in st.session_state:
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
 
-st.title("💡 Recommendations")
+st.title("❤️ Support")
 
 with st.sidebar:
     st.header("Share Evidence")
@@ -77,8 +75,8 @@ with st.sidebar:
                     txt = uploaded.read().decode("utf-8")
                     st.session_state.evidence_textfile_content = txt
                     st.success("Text file ready to analyze")
-                except Exception as e:
-                    st.error(f"Error reading text file: {str(e)}")
+                except:
+                    pass
     else:
         txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         st.session_state.evidence_text = txt_ev or ""
@@ -87,16 +85,8 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message_with_possible_image(msg):
-    if isinstance(msg["content"], list):
-        texts = []
-        for part in msg["content"]:
-            if isinstance(part, dict) and part.get("type") == "text":
-                texts.append(part.get("text", ""))
-        if texts:
-            st.markdown("\n\n".join(texts))
-    else:
-        st.markdown(str(msg["content"]))
+def render_message(msg):
+    st.markdown(str(msg["content"]))
 
 def handle_feedback(msg_index, category):
     fb_key = f"fb_{msg_index}"
@@ -108,25 +98,25 @@ def handle_feedback(msg_index, category):
         st.session_state.feedback_synced[fb_key] = selected
         st.toast("Feedback submitted! Thank you!")
 
-messages = st.session_state.recommendations_messages
+messages = st.session_state.therapist_messages
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
-            render_message_with_possible_image(msg)
+            render_message(msg)
             if msg["role"] == "assistant":
-                handle_feedback(i, "Recommendations")
+                handle_feedback(i, "Support")
 
 user_input = st.chat_input("What's on your mind?")
 
 if user_input:
     parts = [{"type": "text", "text": user_input}]
     if st.session_state.evidence_text:
-        parts.append({"type": "text", "text": "[User provided text evidence]"})
+        parts.append({"type": "text", "text": "[hidden text evidence]"})
     if st.session_state.evidence_textfile_content:
-        parts.append({"type": "text", "text": "[User uploaded a text file as evidence]"})
+        parts.append({"type": "text", "text": "[hidden text file content]"})
     if st.session_state.evidence_image_b64:
-        parts.append({"type": "text", "text": "[User uploaded an image as evidence]"})
+        parts.append({"type": "text", "text": "[hidden image evidence]"})
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
@@ -142,7 +132,7 @@ if user_input:
         assistant_msg = {"role": "assistant", "content": reply}
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
-            st.markdown(reply)
-            handle_feedback(len(messages)-1, "Recommendations")
+            render_message(assistant_msg)
+            handle_feedback(len(messages) - 1, "Support")
     except Exception as e:
         st.error(f"Error: {str(e)}")
