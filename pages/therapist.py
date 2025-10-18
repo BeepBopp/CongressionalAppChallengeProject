@@ -56,6 +56,8 @@ if "evidence_textfile_content" not in st.session_state:
     st.session_state.evidence_textfile_content = ""
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
+if "last_upload_sig" not in st.session_state:
+    st.session_state.last_upload_sig = None
 
 st.title("❤️ Support")
 
@@ -65,6 +67,9 @@ with st.sidebar:
     if mode == "Upload Files":
         uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
         if uploaded:
+            sig = f"{uploaded.name}:{uploaded.size}"
+            is_new_upload = st.session_state.last_upload_sig != sig
+            st.session_state.last_upload_sig = sig
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
                 st.image(uploaded, caption="Evidence Screenshot", use_container_width=True)
@@ -72,16 +77,19 @@ with st.sidebar:
                 if b64:
                     st.session_state.evidence_image_b64 = b64
                     st.success("Screenshot ready to analyze")
-                    st.toast("Screenshot ready to analyze.")
+                    if is_new_upload:
+                        st.toast("Screenshot ready to analyze.")
             elif mime_root == "text":
                 try:
                     txt = uploaded.read().decode("utf-8")
                     st.session_state.evidence_textfile_content = txt
                     st.success("Text file ready to analyze")
-                    st.toast("Text file ready to analyze.")
+                    if is_new_upload:
+                        st.toast("Text file ready to analyze.")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
-                    st.toast("Error! Please check what you uploaded.")
+                    if is_new_upload:
+                        st.toast("Error! Please check what you uploaded.")
     else:
         txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         st.session_state.evidence_text = txt_ev or ""
