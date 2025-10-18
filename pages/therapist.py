@@ -87,7 +87,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message_with_possible_image(msg):
+def render_message(msg):
     if isinstance(msg["content"], list):
         texts = []
         for part in msg["content"]:
