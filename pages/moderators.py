@@ -45,7 +45,7 @@ def encode_image_to_b64(file_bytes):
 
 if "moderators_messages" not in st.session_state:
     st.session_state.moderators_messages = [
-        {"role": "system", "content": "You are an AI chatbot that helps moderators judge cyberbullying scenarios and conversations. You should assess severity, look for patterns, and distinguish between any jokes, and actual risk. You should avoid false alarms, flag unclear cases for humans, and alert when harmful behavior is repeated. It should communicate in a natural, non-robotic way, understand internet tone, and support the moderators. First, ask what happened. Then, ask a few short follow-up questions to understand the situation. After that, write a short summary report of what happened and suggest 2–3 next steps (like flagging messages, further review, looking at patterns that could pop up in a conversation, etc.). Change what is asked to the person every time and don't repeat questions. Sometimes don't ask questions that might be difficult or sad to answer but if it is needed then yes. Keep it kind, clear, and non-judgy. Take what they best prefer, elaborate, and continue the conversation. Overall, be helpful and not have too many unnecessary details for the moderators. Remember the summary!"},
+        {"role": "system", "content": "You are an AI chatbot that helps moderators judge cyberbullying scenarios and conversations. You should assess severity, look for patterns, and distinguish between any jokes, and actual risk. DO NOT ASK TOO MANY QUESTIONS. It should communicate in a natural, non-robotic way, understand internet tone, and support the moderators. First, ask what happened. Then, ask a few short follow-up questions to understand the situation. After that, write a short summary report of what happened and suggest 2–3 next steps (like flagging messages, further review, looking at patterns that could pop up in a conversation, etc.). Change what is asked to the person every time and don't repeat questions. Sometimes don't ask questions that might be difficult or sad to answer. Take what they best prefer, elaborate, and continue the conversation. Overall, be helpful and not have too many unnecessary details for the moderators. Do not ask all questions at once, ask gradually over the course of multiple messages but DO NOT ASK TOO MANY QUESTIONS. Make sure to include summary in appropriate place. Your summary should be DETAILED and include insights the moderator otherwise wouldn't have thought of. DO NOT ENGAGE IN OFF TOPIC CONVERSATION."},
         {"role": "assistant", "content": "Hey there, my name is modAI, how would you like me to assist? Please send over the flagged messages or conversations for me to review in the left sidebar or in the chat. Or let me know if you need any other help."}
     ]
 
@@ -63,6 +63,8 @@ if "last_textfile_hash" not in st.session_state:
     st.session_state.last_textfile_hash = None
 if "last_text_evidence_hash" not in st.session_state:
     st.session_state.last_text_evidence_hash = None
+if "evidence_sent" not in st.session_state:
+    st.session_state.evidence_sent = False
 
 st.title("🔨 Moderators")
 
@@ -90,6 +92,7 @@ with st.sidebar:
                     if new_hash != st.session_state.last_image_hash:
                         st.session_state.last_image_hash = new_hash
                         st.session_state.evidence_image_b64 = b64
+                        st.session_state.evidence_sent = False
                         st.toast("Screenshot uploaded")
                         st.success("Screenshot ready to analyze")
                     else:
@@ -103,6 +106,7 @@ with st.sidebar:
                     if new_hash != st.session_state.last_textfile_hash:
                         st.session_state.last_textfile_hash = new_hash
                         st.session_state.evidence_textfile_content = txt
+                        st.session_state.evidence_sent = False
                         st.toast("Text file uploaded")
                         st.success("Text file ready to analyze")
                     else:
@@ -115,6 +119,7 @@ with st.sidebar:
             if new_hash != st.session_state.last_text_evidence_hash:
                 st.session_state.evidence_text = txt_ev
                 st.session_state.last_text_evidence_hash = new_hash
+                st.session_state.evidence_sent = False
                 wc = len(txt_ev.split())
                 st.toast("Text evidence submitted")
                 st.success(f"Text evidence captured ({wc} words)")
