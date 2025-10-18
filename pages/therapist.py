@@ -81,6 +81,7 @@ with st.sidebar:
                     st.toast("Text file ready to analyze.")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
+                    st.toast("Error! Please check what you uploaded.")
     else:
         txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         st.session_state.evidence_text = txt_ev or ""
