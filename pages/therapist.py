@@ -1,5 +1,6 @@
 import streamlit as st
 from openai import OpenAI
+import base64
 from PIL import Image
 import io
 from datetime import datetime
@@ -18,7 +19,7 @@ if "worksheet" not in st.session_state:
     try:
         creds = Credentials.from_service_account_info(
             st.secrets["gcp_service_account"],
-            scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"]
+            scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
         )
         gs_client = gspread.authorize(creds)
         SHEET_NAME = "feedback"
@@ -36,14 +37,15 @@ def encode_image_to_b64(file_obj):
             image = image.convert("RGB")
         buf = io.BytesIO()
         image.save(buf, format="JPEG")
-        return buf.getvalue()
-    except:
+        return base64.b64encode(buf.getvalue()).decode("utf-8")
+    except Exception as e:
+        st.error(f"Error processing image: {str(e)}")
         return None
 
 if "therapist_messages" not in st.session_state:
     st.session_state.therapist_messages = [
-        {"role": "system", "content": "You are a therapist for victims of cyberbullying. Start by asking for the user’s name and what they’re going through. Be warm and approachable. Be very conversational, concise, and supportive. Guide the user gently and always stay on topic."},
-        {"role": "assistant", "content": "Hey there, I’m rAIna, a cyberbullying support bot. Encountering cyberbullying is difficult, and I'm here to listen and support you. What’s been on your mind lately?"}
+        {"role": "system", "content": "You are a therapist for victims of cyberbullying. Start by asking for the user’s name and what they’re going through. Be warm and approachable—like a caring older sibling. Be very conversational, do not talk for too long, make sure that they are following along. Acknowledge their emotions and suggest coping strategies: talking to a trusted adult, taking screen breaks, or diving into hobbies they enjoy. Adapt to their personality and how serious the situation feels. Ask thoughtful questions to understand their emotions, but don’t get too personal. Keep the tone friendly and informal. If they seem deeply distressed or mention self-harm or hurting others, gently suggest calling 988 for immediate help. Then guide the conversation toward comforting topics like favorite foods, shows, or hobbies. Offer calming exercises like deep breathing or grounding techniques. Summarize key points, check in to make sure they feel heard, and adjust your approach as needed. Always be kind, supportive, and ready to follow up. Ask if they need anything else before wrapping up. Stay concise. Don’t make your suggestions super obvious. Stay supportive and helpful the whole time. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING SUPPORT/THERAPY AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC. DO NOT TALK ABOUT IRRELEVANT THINGS."},
+        {"role": "assistant", "content": "Hey there, I’m rAIna, a cyberbullying support bot and your space to talk, breathe, and feel heard. Encountering cyberbullying is difficult, and I'm here to listen and support you. What’s been on your mind lately? If it's helpful, you can upload information through the left sidebar."}
     ]
 
 if "evidence_image_b64" not in st.session_state:
@@ -61,7 +63,7 @@ with st.sidebar:
     st.header("Share Evidence")
     mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
     if mode == "Upload Files":
-        uploaded = st.file_uploader("Choose files", type=["png","jpg","jpeg","gif","bmp","webp","txt"])
+        uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
         if uploaded:
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
@@ -75,8 +77,8 @@ with st.sidebar:
                     txt = uploaded.read().decode("utf-8")
                     st.session_state.evidence_textfile_content = txt
                     st.success("Text file ready to analyze")
-                except:
-                    pass
+                except Exception as e:
+                    st.error(f"Error reading text file: {str(e)}")
     else:
         txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         st.session_state.evidence_text = txt_ev or ""
@@ -85,8 +87,16 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message(msg):
-    st.markdown(str(msg["content"]))
+def render_message_with_possible_image(msg):
+    if isinstance(msg["content"], list):
+        texts = []
+        for part in msg["content"]:
+            if isinstance(part, dict) and part.get("type") == "text":
+                texts.append(part.get("text", ""))
+        if texts:
+            st.markdown("\n\n".join(texts))
+    else:
+        st.markdown(str(msg["content"]))
 
 def handle_feedback(msg_index, category):
     fb_key = f"fb_{msg_index}"
@@ -112,11 +122,11 @@ user_input = st.chat_input("What's on your mind?")
 if user_input:
     parts = [{"type": "text", "text": user_input}]
     if st.session_state.evidence_text:
-        parts.append({"type": "text", "text": "[hidden text evidence]"})
+        parts.append({"type": "text", "text": f"(hidden text evidence included)"})
     if st.session_state.evidence_textfile_content:
-        parts.append({"type": "text", "text": "[hidden text file content]"})
+        parts.append({"type": "text", "text": f"(hidden text file content included)"})
     if st.session_state.evidence_image_b64:
-        parts.append({"type": "text", "text": "[hidden image evidence]"})
+        parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
