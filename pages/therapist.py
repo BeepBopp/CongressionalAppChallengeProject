@@ -104,11 +104,11 @@ with st.sidebar:
                     st.error(f"Error reading text file: {str(e)}")
         elif mode == "Text Evidence":
             st.session_state.evidence_text = txt_ev or ""
-            word_count = len(st.session_state.evidence_text.split())
-            if word_count:
+            wc = len(st.session_state.evidence_text.split())
+            if wc:
                 st.toast("Text evidence submitted")
-                st.success(f"Text evidence captured ({word_count} words)")
-        st.markdown("---")
+                st.success(f"Text evidence captured ({wc} words)")
+    st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
 def render_images(msg):
@@ -175,6 +175,21 @@ if user_input:
         render_images(user_msg)
     try:
         api_messages = clean_messages(messages)
+
+        hidden_content_parts = []
+        if st.session_state.evidence_text:
+            hidden_content_parts.append({"type": "text", "text": f"[Text evidence]\n{st.session_state.evidence_text}"})
+        if st.session_state.evidence_textfile_content:
+            hidden_content_parts.append({"type": "text", "text": f"[Text file content]\n{st.session_state.evidence_textfile_content}"})
+        if st.session_state.evidence_image_b64:
+            hidden_content_parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
+
+        if hidden_content_parts:
+            api_messages.append({
+                "role": "user",
+                "content": hidden_content_parts
+            })
+
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=api_messages,
