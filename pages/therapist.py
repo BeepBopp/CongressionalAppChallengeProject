@@ -118,7 +118,7 @@ if user_input:
         parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
-    with st.chat_message("user"):
+    #with st.chat_message("user"):
         #render_message_with_possible_image(user_msg)
     try:
         resp = client.chat.completions.create(
