@@ -44,9 +44,7 @@ def encode_image_to_b64(file_obj):
 
 if "messages" not in st.session_state:
     st.session_state.messages = [
-if "recommendations_messages" not in st.session_state:
-    st.session_state.recommendations_messages = [
-        {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING RECOMMENDATIONS AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC.  Remember to include summary in appropriate place."},
+        {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe. Remember to include summary in appropriate place."},
         {"role": "assistant", "content": "Hey, I'm Cyberassist. I'm here to provide advice on how to react if you encounter cyberbullying. You can tell me about it or share information in the left sidebar if that's easier for you. "}
     ]
 
@@ -119,7 +117,6 @@ def handle_feedback(msg_index, category):
         st.toast("Feedback submitted! Thank you!")
 
 messages = st.session_state.messages
-messages = st.session_state.recommendations_messages
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
@@ -154,6 +151,6 @@ if user_input:
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
             render_message_with_possible_image(assistant_msg)
-            handle_feedback(len(messages)-1, "Recommendations")
+            handle_feedback(len(messages)-1, "Support")
     except Exception as e:
         st.error(f"Error: {str(e)}")
