@@ -87,25 +87,6 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message_with_possible_image(msg):
-    if isinstance(msg["content"], list):
-        texts = []
-        for part in msg["content"]:
-            if isinstance(part, dict) and part.get("type") == "text":
-                texts.append(part.get("text", ""))
-            elif isinstance(part, dict) and part.get("type") == "image_url":
-                url = part.get("image_url", {}).get("url", "")
-                if url.startswith("data:image/jpeg;base64,"):
-                    try:
-                        b64 = url.split(",", 1)[1]
-                        st.image(io.BytesIO(base64.b64decode(b64)), caption="Attached image", use_container_width=True)
-                    except Exception:
-                        pass
-        if texts:
-            st.markdown("\n\n".join(texts))
-    else:
-        st.markdown(str(msg["content"]))
-
 def handle_feedback(msg_index, category):
     fb_key = f"fb_{msg_index}"
     selected = st.feedback("thumbs", key=fb_key)
@@ -121,7 +102,6 @@ messages = st.session_state.therapist_messages
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
-            render_message_with_possible_image(msg)
             if msg["role"] == "assistant":
                 handle_feedback(i, "Support")
 
