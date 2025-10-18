@@ -6,8 +6,9 @@ import io
 from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
+import hashlib
 
-st.set_page_config(page_title="Moderators", page_icon = "🔨")
+st.set_page_config(page_title="Moderators", page_icon="🔨")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -30,9 +31,9 @@ if "worksheet" not in st.session_state:
 
 client = OpenAI(api_key=api_key)
 
-def encode_image_to_b64(file_obj):
+def encode_image_to_b64(file_bytes):
     try:
-        image = Image.open(file_obj)
+        image = Image.open(io.BytesIO(file_bytes))
         if image.mode != "RGB":
             image = image.convert("RGB")
         buf = io.BytesIO()
@@ -56,38 +57,73 @@ if "evidence_textfile_content" not in st.session_state:
     st.session_state.evidence_textfile_content = ""
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
+if "last_image_hash" not in st.session_state:
+    st.session_state.last_image_hash = None
+if "last_textfile_hash" not in st.session_state:
+    st.session_state.last_textfile_hash = None
+if "last_text_evidence_hash" not in st.session_state:
+    st.session_state.last_text_evidence_hash = None
 
 st.title("🔨 Moderators")
 
 with st.sidebar:
     st.header("Share Evidence")
     mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
-    if mode == "Upload Files":
-        uploaded = st.file_uploader("Choose files", type=["png","jpg","jpeg","gif","bmp","webp","txt"])
-        if uploaded:
+    with st.form("evidence_form", clear_on_submit=False):
+        uploaded = None
+        txt_ev = ""
+        if mode == "Upload Files":
+            uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
+        else:
+            txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
+        submit_evidence = st.form_submit_button("Submit Evidence")
+
+    if submit_evidence:
+        if mode == "Upload Files" and uploaded:
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
-                st.image(uploaded, caption="Evidence Screenshot", use_container_width=True)
-                b64 = encode_image_to_b64(uploaded)
+                file_bytes = uploaded.getvalue()
+                new_hash = hashlib.md5(file_bytes).hexdigest()
+                st.image(io.BytesIO(file_bytes), caption="Evidence Screenshot", use_container_width=True)
+                b64 = encode_image_to_b64(file_bytes)
                 if b64:
-                    st.session_state.evidence_image_b64 = b64
-                    st.success("Screenshot ready to analyze")
+                    if new_hash != st.session_state.last_image_hash:
+                        st.session_state.last_image_hash = new_hash
+                        st.session_state.evidence_image_b64 = b64
+                        st.toast("Screenshot uploaded")
+                        st.success("Screenshot ready to analyze")
+                    else:
+                        st.session_state.evidence_image_b64 = b64
+                        st.info("Screenshot already uploaded")
             elif mime_root == "text":
                 try:
-                    txt = uploaded.read().decode("utf-8")
-                    st.session_state.evidence_textfile_content = txt
-                    st.success("Text file ready to analyze")
+                    file_bytes = uploaded.read()
+                    txt = file_bytes.decode("utf-8")
+                    new_hash = hashlib.md5(file_bytes).hexdigest()
+                    if new_hash != st.session_state.last_textfile_hash:
+                        st.session_state.last_textfile_hash = new_hash
+                        st.session_state.evidence_textfile_content = txt
+                        st.toast("Text file uploaded")
+                        st.success("Text file ready to analyze")
+                    else:
+                        st.session_state.evidence_textfile_content = txt
+                        st.info("Text file already uploaded")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
-    else:
-        txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
-        st.session_state.evidence_text = txt_ev or ""
-        if st.session_state.evidence_text:
-            st.success(f"Text evidence captured ({len(st.session_state.evidence_text.split())} words)")
+        elif mode == "Text Evidence" and txt_ev:
+            new_hash = hashlib.md5(txt_ev.encode()).hexdigest()
+            if new_hash != st.session_state.last_text_evidence_hash:
+                st.session_state.evidence_text = txt_ev
+                st.session_state.last_text_evidence_hash = new_hash
+                wc = len(txt_ev.split())
+                st.toast("Text evidence submitted")
+                st.success(f"Text evidence captured ({wc} words)")
+            else:
+                st.info("Text evidence already submitted")
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message_with_possible_image(msg):
+def render_images(msg):
     if isinstance(msg["content"], list):
         texts = []
         for part in msg["content"]:
@@ -116,12 +152,28 @@ def handle_feedback(msg_index, category):
         st.session_state.feedback_synced[fb_key] = selected
         st.toast("Feedback submitted! Thank you!")
 
+def clean_messages(msgs):
+    out = []
+    for m in msgs:
+        role = m.get("role", "user")
+        content = m.get("content", "")
+        if isinstance(content, list):
+            parts_text = []
+            for p in content:
+                if isinstance(p, dict) and p.get("type") == "text":
+                    parts_text.append(p.get("text", ""))
+            content = "\n".join(parts_text) if parts_text else ""
+        else:
+            content = str(content)
+        out.append({"role": role, "content": content})
+    return out
+
 messages = st.session_state.moderators_messages
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
-            render_message_with_possible_image(msg)
+            render_images(msg)
             if msg["role"] == "assistant":
                 handle_feedback(i, "Moderators")
 
@@ -132,11 +184,24 @@ if user_input:
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
-        render_message_with_possible_image(user_msg)
+        render_images(user_msg)
     try:
+        api_messages = clean_messages(messages)
+
+        hidden_parts = []
+        if st.session_state.evidence_text:
+            hidden_parts.append({"type": "text", "text": f"[Text evidence]\n{st.session_state.evidence_text}"})
+        if st.session_state.evidence_textfile_content:
+            hidden_parts.append({"type": "text", "text": f"[Text file content]\n{st.session_state.evidence_textfile_content}"})
+        if st.session_state.evidence_image_b64:
+            hidden_parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
+
+        if hidden_parts:
+            api_messages.append({"role": "user", "content": hidden_parts})
+
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=messages,
+            messages=api_messages,
             max_tokens=800,
             temperature=0.7
         )
@@ -144,7 +209,7 @@ if user_input:
         assistant_msg = {"role": "assistant", "content": reply}
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
-            render_message_with_possible_image(assistant_msg)
+            render_images(assistant_msg)
             handle_feedback(len(messages)-1, "Moderators")
     except Exception as e:
         st.error(f"Error: {str(e)}")
