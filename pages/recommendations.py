@@ -7,7 +7,7 @@ from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 
-st.set_page_config(page_title="Support", page_icon = "❤️")
+st.set_page_config(page_title="Recommendations", page_icon = "💡")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -42,10 +42,12 @@ def encode_image_to_b64(file_obj):
         st.error(f"Error processing image: {str(e)}")
         return None
 
-if "therapist_messages" not in st.session_state:
-    st.session_state.therapist_messages = [
-        {"role": "system", "content": "You are a therapist for victims of cyberbullying. Start by asking for the user’s name and what they’re going through. Be warm and approachable—like a caring older sibling. Be very conversational, do not talk for too long, make sure that they are following along. Acknowledge their emotions and suggest coping strategies: talking to a trusted adult, taking screen breaks, or diving into hobbies they enjoy. Adapt to their personality and how serious the situation feels. Ask thoughtful questions to understand their emotions, but don’t get too personal. Keep the tone friendly and informal. If they seem deeply distressed or mention self-harm or hurting others, gently suggest calling 988 for immediate help. Then guide the conversation toward comforting topics like favorite foods, shows, or hobbies. Offer calming exercises like deep breathing or grounding techniques. Summarize key points, check in to make sure they feel heard, and adjust your approach as needed. Always be kind, supportive, and ready to follow up. Ask if they need anything else before wrapping up. Stay concise. Don’t make your suggestions super obvious. Stay supportive and helpful the whole time. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING SUPPORT/THERAPY AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC. DO NOT TALK ABOUT IRRELEVANT THINGS."},
-        {"role": "assistant", "content": "Hey there, I’m rAIna, a cyberbullying support bot and your space to talk, breathe, and feel heard. Encountering cyberbullying is difficult, and I'm here to listen and support you. What’s been on your mind lately? If it's helpful, you can upload information through the left sidebar."}
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+if "recommendations_messages" not in st.session_state:
+    st.session_state.recommendations_messages = [
+        {"role": "system", "content": "You are cyberAssist, a friendly and supportive chatbot that helps teens respond to online bullying. First, ask what happened – don't try to force them into giving you information, remind them that they only need to share what they are comfortable with sharing. Don't direct them into telling a trusted adult – be the trusted, compassionate adult. Then, ask a few short follow-up questions to understand the situation. Be trustworthy and approachable, like a caring, non-judgemental best friend. Analyze the situation based on severity, and tailor next steps and responses based on what happened. After that, write a short summary report of what happened and suggest 2–3 next steps (like responding calmly, assertively, blocking/reporting, or talking to someone they trust). Keep it kind, clear, and non-judgy. Take what they best prefer, and elaborate, suggesting non-stereotypical initiatives. Don't tell them to talk to a trusted adult, or take deep breaths: they've heard this countless times before. Use effective solutions. Based on the response they pick, generate them some example responses to the bullying that matches the style and approach they want. If the user uploads an image (like a screenshot), analyze the content sensitively and provide specific advice based on what you observe. MAKE SURE TO STAY ON TOPIC TO CYBERBULLYING RECOMMENDATIONS AND GENTLY GUIDE THE USER BACK IF THEY GET OFF-TOPIC.  Remember to include summary in appropriate place."},
+        {"role": "assistant", "content": "Hey, I'm Cyberassist. I'm here to provide advice on how to react if you encounter cyberbullying. You can tell me about it or share information in the left sidebar if that's easier for you. "}
     ]
 
 if "evidence_image_b64" not in st.session_state:
@@ -57,7 +59,7 @@ if "evidence_textfile_content" not in st.session_state:
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
 
-st.title("❤️ Support")
+st.title("💡 Recommendations")
 
 with st.sidebar:
     st.header("Share Evidence")
@@ -87,6 +89,25 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
+def render_message_with_possible_image(msg):
+    if isinstance(msg["content"], list):
+        texts = []
+        for part in msg["content"]:
+            if isinstance(part, dict) and part.get("type") == "text":
+                texts.append(part.get("text", ""))
+            elif isinstance(part, dict) and part.get("type") == "image_url":
+                url = part.get("image_url", {}).get("url", "")
+                if url.startswith("data:image/jpeg;base64,"):
+                    try:
+                        b64 = url.split(",", 1)[1]
+                        st.image(io.BytesIO(base64.b64decode(b64)), caption="Attached image", use_container_width=True)
+                    except Exception:
+                        pass
+        if texts:
+            st.markdown("\n\n".join(texts))
+    else:
+        st.markdown(str(msg["content"]))
+
 def handle_feedback(msg_index, category):
     fb_key = f"fb_{msg_index}"
     selected = st.feedback("thumbs", key=fb_key)
@@ -97,13 +118,15 @@ def handle_feedback(msg_index, category):
         st.session_state.feedback_synced[fb_key] = selected
         st.toast("Feedback submitted! Thank you!")
 
-messages = st.session_state.therapist_messages
+messages = st.session_state.messages
+messages = st.session_state.recommendations_messages
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
+            render_message_with_possible_image(msg)
             if msg["role"] == "assistant":
-                handle_feedback(i, "Support")
+                handle_feedback(i, "Recommendations")
 
 user_input = st.chat_input("What's on your mind?")
 
@@ -131,6 +154,6 @@ if user_input:
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
             render_message_with_possible_image(assistant_msg)
-            handle_feedback(len(messages)-1, "Support")
+            handle_feedback(len(messages)-1, "Recommendations")
     except Exception as e:
         st.error(f"Error: {str(e)}")
