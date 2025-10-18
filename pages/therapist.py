@@ -59,8 +59,6 @@ if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
 if "last_image_hash" not in st.session_state:
     st.session_state.last_image_hash = None
-if "last_text_len" not in st.session_state:
-    st.session_state.last_text_len = 0
 if "last_textfile_hash" not in st.session_state:
     st.session_state.last_textfile_hash = None
 
@@ -68,10 +66,18 @@ st.title("❤️ Support")
 
 with st.sidebar:
     st.header("Share Evidence")
-    mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
-    if mode == "Upload Files":
-        uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
-        if uploaded:
+    with st.form("evidence_form", clear_on_submit=False):
+        mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
+        uploaded = None
+        txt_ev = ""
+        if mode == "Upload Files":
+            uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
+        else:
+            txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
+        submit_evidence = st.form_submit_button("Submit Evidence")
+
+    if submit_evidence:
+        if mode == "Upload Files" and uploaded:
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
                 file_bytes = uploaded.getvalue()
@@ -96,16 +102,13 @@ with st.sidebar:
                     st.success("Text file ready to analyze")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
-    else:
-        txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
-        st.session_state.evidence_text = txt_ev or ""
-        curr_len = len(st.session_state.evidence_text.split())
-        if curr_len and curr_len != st.session_state.last_text_len:
-            st.session_state.last_text_len = curr_len
-            st.toast("Text evidence captured")
-        if st.session_state.evidence_text:
-            st.success(f"Text evidence captured ({curr_len} words)")
-    st.markdown("---")
+        elif mode == "Text Evidence":
+            st.session_state.evidence_text = txt_ev or ""
+            word_count = len(st.session_state.evidence_text.split())
+            if word_count:
+                st.toast("Text evidence submitted")
+                st.success(f"Text evidence captured ({word_count} words)")
+        st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
 def render_images(msg):
@@ -162,11 +165,9 @@ for i, msg in enumerate(messages):
             if msg["role"] == "assistant":
                 handle_feedback(i, "Support")
 
-with st.form("chat_form", clear_on_submit=True):
-    user_input = st.text_input("Type your message")
-    submitted = st.form_submit_button("Send")
+user_input = st.chat_input("What's on your mind?")
 
-if submitted and user_input:
+if user_input:
     parts = [{"type": "text", "text": user_input}]
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
