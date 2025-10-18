@@ -72,11 +72,13 @@ with st.sidebar:
                 if b64:
                     st.session_state.evidence_image_b64 = b64
                     st.success("Screenshot ready to analyze")
+                    st.toast("Screenshot ready to analyze.")
             elif mime_root == "text":
                 try:
                     txt = uploaded.read().decode("utf-8")
                     st.session_state.evidence_textfile_content = txt
                     st.success("Text file ready to analyze")
+                    st.toast("Text file ready to analyze.")
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
     else:
