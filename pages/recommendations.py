@@ -58,6 +58,10 @@ if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
 if "last_upload_sig" not in st.session_state:
     st.session_state.last_upload_sig = None
+if "include_evidence_next_msg" not in st.session_state:
+    st.session_state.include_evidence_next_msg = False
+if "prev_evidence_text" not in st.session_state:
+    st.session_state.prev_evidence_text = ""
 
 st.title("💡 Recommendations")
 
@@ -79,6 +83,7 @@ with st.sidebar:
                     st.success("Screenshot ready to analyze")
                     if is_new_upload:
                         st.toast("Screenshot ready to analyze.")
+                        st.session_state.include_evidence_next_msg = True
             elif mime_root == "text":
                 try:
                     txt = uploaded.read().decode("utf-8")
@@ -86,6 +91,7 @@ with st.sidebar:
                     st.success("Text file ready to analyze")
                     if is_new_upload:
                         st.toast("Text file ready to analyze.")
+                        st.session_state.include_evidence_next_msg = True
                 except Exception as e:
                     st.error(f"Error reading text file: {str(e)}")
                     if is_new_upload:
@@ -95,6 +101,9 @@ with st.sidebar:
         st.session_state.evidence_text = txt_ev or ""
         if st.session_state.evidence_text:
             st.success(f"Text evidence captured ({len(st.session_state.evidence_text.split())} words)")
+        if st.session_state.evidence_text and st.session_state.evidence_text != st.session_state.prev_evidence_text:
+            st.session_state.include_evidence_next_msg = True
+            st.session_state.prev_evidence_text = st.session_state.evidence_text
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
@@ -132,16 +141,18 @@ user_input = st.chat_input("What's on your mind?")
 
 if user_input:
     parts = [{"type": "text", "text": user_input}]
-    if st.session_state.evidence_text:
-        parts.append({"type": "text", "text": "[User provided text evidence]"})
-    if st.session_state.evidence_textfile_content:
-        parts.append({"type": "text", "text": "[User uploaded a text file as evidence]"})
-    if st.session_state.evidence_image_b64:
-        parts.append({"type": "text", "text": "[User uploaded an image as evidence]"})
+    if st.session_state.include_evidence_next_msg:
+        if st.session_state.evidence_text:
+            parts.append({"type": "text", "text": st.session_state.evidence_text})
+        if st.session_state.evidence_textfile_content:
+            parts.append({"type": "text", "text": st.session_state.evidence_textfile_content})
+        if st.session_state.evidence_image_b64:
+            parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
+        st.session_state.include_evidence_next_msg = False
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
-        st.markdown(user_input)
+        render_message(user_msg)
     try:
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -153,7 +164,7 @@ if user_input:
         assistant_msg = {"role": "assistant", "content": reply}
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
-            st.markdown(reply)
+            render_message(assistant_msg)
             handle_feedback(len(messages)-1, "Recommendations")
     except Exception as e:
         st.error(f"Error: {str(e)}")
