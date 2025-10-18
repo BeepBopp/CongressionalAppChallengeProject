@@ -59,6 +59,10 @@ if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
 if "last_image_hash" not in st.session_state:
     st.session_state.last_image_hash = None
+if "last_text_len" not in st.session_state:
+    st.session_state.last_text_len = 0
+if "last_textfile_hash" not in st.session_state:
+    st.session_state.last_textfile_hash = None
 
 st.title("❤️ Support")
 
@@ -82,7 +86,12 @@ with st.sidebar:
                     st.success("Screenshot ready to analyze")
             elif mime_root == "text":
                 try:
-                    txt = uploaded.read().decode("utf-8")
+                    file_bytes = uploaded.read()
+                    txt = file_bytes.decode("utf-8")
+                    new_hash = hashlib.md5(file_bytes).hexdigest()
+                    if new_hash != st.session_state.last_textfile_hash:
+                        st.session_state.last_textfile_hash = new_hash
+                        st.toast("Text file uploaded")
                     st.session_state.evidence_textfile_content = txt
                     st.success("Text file ready to analyze")
                 except Exception as e:
@@ -90,12 +99,16 @@ with st.sidebar:
     else:
         txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
         st.session_state.evidence_text = txt_ev or ""
+        curr_len = len(st.session_state.evidence_text.split())
+        if curr_len and curr_len != st.session_state.last_text_len:
+            st.session_state.last_text_len = curr_len
+            st.toast("Text evidence captured")
         if st.session_state.evidence_text:
-            st.success(f"Text evidence captured ({len(st.session_state.evidence_text.split())} words)")
+            st.success(f"Text evidence captured ({curr_len} words)")
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message_with_possible_image(msg):
+def render_images(msg):
     if isinstance(msg["content"], list):
         texts = []
         for part in msg["content"]:
@@ -124,27 +137,46 @@ def handle_feedback(msg_index, category):
         st.session_state.feedback_synced[fb_key] = selected
         st.toast("Feedback submitted! Thank you!")
 
+def clean_messages(msgs):
+    out = []
+    for m in msgs:
+        role = m.get("role", "user")
+        content = m.get("content", "")
+        if isinstance(content, list):
+            parts_text = []
+            for p in content:
+                if isinstance(p, dict) and p.get("type") == "text":
+                    parts_text.append(p.get("text", ""))
+            content = "\n".join(parts_text) if parts_text else ""
+        else:
+            content = str(content)
+        out.append({"role": role, "content": content})
+    return out
+
 messages = st.session_state.therapist_messages
 
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
-            render_message_with_possible_image(msg)
+            render_images(msg)
             if msg["role"] == "assistant":
                 handle_feedback(i, "Support")
 
-user_input = st.chat_input("What's on your mind?")
+with st.form("chat_form", clear_on_submit=True):
+    user_input = st.text_input("Type your message")
+    submitted = st.form_submit_button("Send")
 
-if user_input:
+if submitted and user_input:
     parts = [{"type": "text", "text": user_input}]
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
-        render_message_with_possible_image(user_msg)
+        render_images(user_msg)
     try:
+        api_messages = clean_messages(messages)
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=messages,
+            messages=api_messages,
             max_tokens=800,
             temperature=0.7
         )
@@ -152,7 +184,7 @@ if user_input:
         assistant_msg = {"role": "assistant", "content": reply}
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
-            render_message_with_possible_image(assistant_msg)
+            render_images(assistant_msg)
             handle_feedback(len(messages) - 1, "Support")
     except Exception as e:
         st.error(f"Error: {str(e)}")
