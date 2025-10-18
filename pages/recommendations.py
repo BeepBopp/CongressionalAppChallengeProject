@@ -87,7 +87,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Everything you share is private and secure. Only share what you're comfortable with.")
 
-def render_message_with_possible_image(msg):
+def render_message(msg):
     if isinstance(msg["content"], list):
         texts = []
         for part in msg["content"]:
@@ -113,7 +113,7 @@ messages = st.session_state.recommendations_messages
 for i, msg in enumerate(messages):
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
-            render_message_with_possible_image(msg)
+            render_message(msg)
             if msg["role"] == "assistant":
                 handle_feedback(i, "Recommendations")
 
