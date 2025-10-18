@@ -73,7 +73,7 @@ with st.sidebar:
         if mode == "Upload Files":
             uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
         else:
-            txt_ev = st.text_area("Paste the harmful content here:", placeholder="Copy and paste messages...", height=150)
+            txt_ev = st.text_area("Paste the content here:", placeholder="Copy and paste messages...", height=150)
         submit_evidence = st.form_submit_button("Submit Evidence")
 
     if submit_evidence:
