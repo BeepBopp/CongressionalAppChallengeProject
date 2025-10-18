@@ -6,8 +6,9 @@ import io
 from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
+import hashlib
 
-st.set_page_config(page_title="Support", page_icon = "❤️")
+st.set_page_config(page_title="Support", page_icon="❤️")
 
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -30,9 +31,9 @@ if "worksheet" not in st.session_state:
 
 client = OpenAI(api_key=api_key)
 
-def encode_image_to_b64(file_obj):
+def encode_image_to_b64(file_bytes):
     try:
-        image = Image.open(file_obj)
+        image = Image.open(io.BytesIO(file_bytes))
         if image.mode != "RGB":
             image = image.convert("RGB")
         buf = io.BytesIO()
@@ -56,6 +57,8 @@ if "evidence_textfile_content" not in st.session_state:
     st.session_state.evidence_textfile_content = ""
 if "feedback_synced" not in st.session_state:
     st.session_state.feedback_synced = {}
+if "last_image_hash" not in st.session_state:
+    st.session_state.last_image_hash = None
 
 st.title("❤️ Support")
 
@@ -63,13 +66,18 @@ with st.sidebar:
     st.header("Share Evidence")
     mode = st.selectbox("How would you like to share?", ["Upload Files", "Text Evidence"])
     if mode == "Upload Files":
-        uploaded = st.file_uploader("Choose files", type=["png","jpg","jpeg","gif","bmp","webp","txt"])
+        uploaded = st.file_uploader("Choose files", type=["png", "jpg", "jpeg", "gif", "bmp", "webp", "txt"])
         if uploaded:
             mime_root = uploaded.type.split("/")[0]
             if mime_root == "image":
-                st.image(uploaded, caption="Evidence Screenshot", use_container_width=True)
-                b64 = encode_image_to_b64(uploaded)
+                file_bytes = uploaded.getvalue()
+                st.image(io.BytesIO(file_bytes), caption="Evidence Screenshot", use_container_width=True)
+                b64 = encode_image_to_b64(file_bytes)
                 if b64:
+                    new_hash = hashlib.md5(file_bytes).hexdigest()
+                    if new_hash != st.session_state.last_image_hash:
+                        st.session_state.last_image_hash = new_hash
+                        st.toast("Screenshot uploaded")
                     st.session_state.evidence_image_b64 = b64
                     st.success("Screenshot ready to analyze")
             elif mime_root == "text":
@@ -129,12 +137,6 @@ user_input = st.chat_input("What's on your mind?")
 
 if user_input:
     parts = [{"type": "text", "text": user_input}]
-    if st.session_state.evidence_text:
-        parts.append({"type": "text", "text": f"[Text evidence]\n{st.session_state.evidence_text}"})
-    if st.session_state.evidence_textfile_content:
-        parts.append({"type": "text", "text": f"[Text file content]\n{st.session_state.evidence_textfile_content}"})
-    if st.session_state.evidence_image_b64:
-        parts.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{st.session_state.evidence_image_b64}"}})
     user_msg = {"role": "user", "content": parts}
     messages.append(user_msg)
     with st.chat_message("user"):
@@ -151,6 +153,6 @@ if user_input:
         messages.append(assistant_msg)
         with st.chat_message("assistant"):
             render_message_with_possible_image(assistant_msg)
-            handle_feedback(len(messages)-1, "Support")
+            handle_feedback(len(messages) - 1, "Support")
     except Exception as e:
         st.error(f"Error: {str(e)}")
