@@ -2,13 +2,6 @@
 Public GitHub repository for our Cyberbullying Congressional App Challenge!
 This connects to our Streamlit app! Check out the link here: https://cybershield.streamlit.app/
 
-
-Here are the links to the relevant Hugging Face Spaces that we have worked on.
-  - ChatHub: https://huggingface.co/spaces/rxu187/chatbot?logs=container
-  - Cyberbullying Identifier: https://huggingface.co/spaces/rxu187/CyberbullyingIdentifier
-  - Financial Literacy Diagnostic Quiz: https://huggingface.co/spaces/rxu187/FinancialLiteracyQuiz
-  - Cyberbullying Responses: https://huggingface.co/spaces/andreabocelli/CyberBullyingResponses/tree/main
-
 Pages that will be included are listed here.
   -  Home Page
   -  Tools
@@ -27,5 +20,4 @@ Pages that will be included are listed here.
       - Contact Us!
 
 Things to Work On
-  - Upload files on chatbot bots
-  - extra: make recommendations report style
+  - Nothing! Our bot is done :)
