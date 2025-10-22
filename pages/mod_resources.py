@@ -60,7 +60,7 @@ st.markdown("""
   Mozilla's approach to content moderation and policy enforcement.
 """)
 
-st.header("🧰 Try other toools")
+st.header("🧰 Try other tools")
 col1, col2 = st.columns(2)
 with col1:
     if st.button("🔍 Detect Harmful Language"):
