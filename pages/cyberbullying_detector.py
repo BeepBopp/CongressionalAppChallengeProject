@@ -54,8 +54,7 @@ Message: \"{text}\"
         st.error(f"OpenAI API Error: {e}")
         return "error", "Failed to get a response from the model."
 
-def encode_image(image_file):
-    return base64.b64encode(image_file.getvalue()).decode('utf-8')
+
 
 def extract_text_from_image(image_file):
     base64_image = encode_image(image_file)
