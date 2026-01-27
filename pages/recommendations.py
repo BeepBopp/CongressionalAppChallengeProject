@@ -190,7 +190,6 @@ if user_input:
         resp = client.chat.completions.create(
             model="gpt-5",
             messages=api_messages,
-            temperature=0.7
         )
         reply = resp.choices[0].message.content
         assistant_msg = {"role": "assistant", "content": reply}
