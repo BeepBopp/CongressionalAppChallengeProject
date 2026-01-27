@@ -188,7 +188,7 @@ if user_input:
             api_messages.append({"role": "user", "content": hidden_parts})
 
         resp = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-5o-mini",
             messages=api_messages,
             max_tokens=800,
             temperature=0.7
