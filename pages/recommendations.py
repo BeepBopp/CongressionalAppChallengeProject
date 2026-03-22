@@ -188,7 +188,7 @@ if user_input:
             api_messages.append({"role": "user", "content": hidden_parts})
 
         resp = client.chat.completions.create(
-            model="gpt-5",
+            model="gpt-5-mini",
             messages=api_messages,
         )
         reply = resp.choices[0].message.content
